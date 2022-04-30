@@ -1,0 +1,65 @@
+const passport = require("passport");
+const LocalStrategy = require("passport-local").Strategy;
+const bcrypt = require("bcrypt");
+const User = require("./models/users");
+
+const saltRound = 10;
+
+passport.serializeUser((user, done) => {
+    return done(null, user._id);
+});
+
+passport.deserializeUser(async (userId, done) => {
+    try {
+        const existingUser = await User.findById(userId);
+        return done(null, existingUser);
+    } catch (err) {
+        return done(err);
+    }
+});
+
+passport.use(
+    "register",
+    new LocalStrategy(
+        {
+            usernameField: "name",
+            passwordField: "password",
+            passReqToCallback: true,
+        },
+        async (req, name, password, done) => {
+            try {
+                if (name.length < 4) {
+                    const error = new Error("El nombre de usuario debe contener almenos 4 carácteres");
+                    return done(error);
+                }
+
+                const previousUser = await User.findOne({
+                    name: name.toLowerCase(),
+                });
+
+                if (previousUser) {
+                    const error = new Error("El usuario ya existe");
+                    return done(error);
+                }
+
+                const hash = await bcrypt.hash(password, saltRound);
+
+                const newUser = new User({
+                    name: req.body.name,
+                    password: hash,
+                });
+
+                const savedUser = await newUser.save();
+
+                return done(null, savedUser);
+            } catch (err) {
+                return done(err);
+            }
+        }
+    )
+);
+
+
+
+
+/* TODO LOGIN */
