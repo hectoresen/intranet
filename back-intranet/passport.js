@@ -60,6 +60,43 @@ passport.use(
 );
 
 
+passport.use(
+    "login",
+    new LocalStrategy(
+        {
+            usernameField: "name",
+            passwordField: "password",
+            passReqToCallback: true,
+        },
+        async (req, name, password, done) => {
+            try {
 
+                if (!name) {
+                    const error = new Error("Invalid name");
+                    return done(error);
+                }
 
-/* TODO LOGIN */
+                const currentUser = await User.findOne({ name: name.toLowerCase() });
+
+                if (!currentUser) {
+                    const error = new Error("The user does not exist!");
+                    return done(error);
+                }
+
+                const isValidPassword = await bcrypt.compare(
+                    password,
+                    currentUser.password
+                );
+
+                if (!isValidPassword) {
+                    const error = new Error("The email or password is invalid!");
+                    return done(error);
+                }
+
+                return done(null, currentUser);
+            } catch (err) {
+                return done(err);
+            }
+        }
+    )
+);

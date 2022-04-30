@@ -1,0 +1,25 @@
+.events{
+    margin-top: 10%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    &__month{
+        text-transform: uppercase;
+    }
+    &__calendar{
+        margin-top: 5%;
+        display: flex;
+        justify-content: space-around;
+        &-card{
+            width: 10vh;
+            height: 20vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #E6E6E6;
+            border: 1px solid black;
+            border-radius: 2px;
+        }
+    }
+}

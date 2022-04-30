@@ -1,12 +1,16 @@
+import { Access, Home } from './pages';
+import { Routes, Route } from "react-router-dom";
+import { PrivateRoute } from './components';
 import './App.scss';
-import { Access } from './pages';
 
 function App() {
   return (
     <div className="App">
-      Intranet
-      <Access />
-    </div>
+      <Routes>
+        <Route path="/" element={<Access/>}/>
+        <Route path="/home" element={<PrivateRoute component={<Home/>}/>}/>
+      </Routes>
+      </div>
   );
 }
 

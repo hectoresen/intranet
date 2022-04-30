@@ -9,25 +9,43 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { useState } from 'react';
+import { connect } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { loginUser, registerUser } from '../../redux/actions/auth.actions';
 import './Access.scss';
 
-const Access = () => {
+const Access = ({dispatch, user, error}) => {
 
   const [needToRegister, setNeedToRegister] = useState(false);
+  const [formData, setFormData] = useState({name:'', password: ''});
+  const navigate = useNavigate();
+
+  const handleInput = (ev) =>{
+    const {name, value} = ev.target;
+    setFormData({...formData, [name]: value});
+  }
 
   const loginSubmit = (ev) =>{
-    /* Lógica de inicio de sesión */
+    ev.preventDefault();
+    dispatch(loginUser(formData));
+    setFormData({name: '', password: ''});
+    navigate('/home');
   }
+
   const registerSubmit = (ev) =>{
-    /* Lógica de registro */
-    setNeedToRegister(!needToRegister)
+    ev.preventDefault();
+    dispatch(registerUser(formData));
+    setFormData({name: '', password: ''});
+    setNeedToRegister(!needToRegister);
+    navigate('/home');
   };
 
   return (
     <div className='access'>
+      {(error) ? <p className='access__error'>Credenciales incorrectas</p> : ''}
       {(!needToRegister)
       ?
-      <Container component="main" maxWidth="xs">
+      <Container  className="access__form" component="main" maxWidth="xs">
           <CssBaseline />
           <Box
             sx={{
@@ -37,8 +55,6 @@ const Access = () => {
               alignItems: 'center',
             }}
           >
-            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            </Avatar>
             <Typography component="h1" variant="h5">
               Inicio de sesión
             </Typography>
@@ -47,12 +63,12 @@ const Access = () => {
                 margin="normal"
                 required
                 fullWidth
-                id="email"
-                label="Correo electrónico"
-                name="email"
-                type='email'
-                autoComplete="email"
+                id="name"
+                label="Nombre de usuario"
+                name="name"
+                type='text'
                 autoFocus
+                onChange={handleInput}
               />
               <TextField
                 margin="normal"
@@ -62,16 +78,13 @@ const Access = () => {
                 label="Contraseña"
                 type="password"
                 id="password"
-                autoComplete="current-password"
+                onChange={handleInput}
               />
-{/*               <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              /> */}
               <Button
                 type="submit"
                 fullWidth
                 variant="contained"
+                id="btn"
                 sx={{ mt: 3, mb: 2 }}
               >
                 Iniciar sesión
@@ -79,7 +92,12 @@ const Access = () => {
               <Grid container>
                 <Grid item xs>
                   <Link href="#" variant="body2">
-                    <h5 onClick={() =>{setNeedToRegister(!needToRegister)}}>Necesito registrarme</h5>
+                    <h5 onClick={() =>{
+                      setNeedToRegister(!needToRegister)
+                      setFormData({name: '', password: ''});
+                      }}
+                      >Necesito registrarme
+                    </h5>
                   </Link>
                 </Grid>
               </Grid>
@@ -87,7 +105,7 @@ const Access = () => {
           </Box>
         </Container>
       :
-      <Container component="main" maxWidth="xs">
+      <Container className="access__form" component="main" maxWidth="xs">
           <CssBaseline />
           <Box
             sx={{
@@ -107,12 +125,12 @@ const Access = () => {
                 margin="normal"
                 required
                 fullWidth
-                id="email"
-                label="Correo electrónico"
-                name="email"
-                type='email'
-                autoComplete="email"
+                id="name"
+                label="Nombre de usuario"
+                name="name"
+                type='text'
                 autoFocus
+                onChange={handleInput}
               />
               <TextField
                 margin="normal"
@@ -122,7 +140,7 @@ const Access = () => {
                 label="Contraseña"
                 type="password"
                 id="password"
-                autoComplete="current-password"
+                onChange={handleInput}
               />
               <Button
                 type="submit"
@@ -140,4 +158,9 @@ const Access = () => {
   )
 }
 
-export default Access
+const mapStateToProps = (state) =>({
+  user: state.auth.user,
+  error: state.auth.error
+});
+
+export default connect(mapStateToProps)(Access);

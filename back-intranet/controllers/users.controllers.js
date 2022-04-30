@@ -2,24 +2,22 @@ const passport = require('passport');
 const User = require('../models/users');
 
 module.exports = {
-    registerPost: async(req, res, next) =>{
-        const {password, name} = req.body;
-        console.log(req.body);
-        console.log(req.params);
+    registerPost: async (req, res, next) => {
+        const { password, name } = req.body;
 
 
-        if(!password || !name){
-            return res.status(400).json({message: 'Debes completar todos los campos'})
+        if (!password || !name) {
+            return res.status(400).json({ message: 'Debes completar todos los campos' })
         }
 
 
-        passport.authenticate('register', (error, user) =>{
-            if(error){
-                return res.status(403).json({message: error.message});
+        passport.authenticate('register', (error, user) => {
+            if (error) {
+                return res.status(403).json({ message: error.message });
             };
-            req.logIn(user, (error) =>{
-                if(error){
-                    return res.status(403).json({message: error.message});
+            req.logIn(user, (error) => {
+                if (error) {
+                    return res.status(403).json({ message: error.message });
                 };
 
                 let registerUser = user;
@@ -30,7 +28,24 @@ module.exports = {
         })(req, res, next);
     },
 
-    loginPost: (req, res, next) =>{
-        /* TODO */
-    }
+    loginPost: (req, res, next) => {
+        passport.authenticate("login", (error, user) => {
+            if (error) {
+                return res.status(401).json({ message: error.message });
+            }
+            req.logIn(user, (error) => {
+                if (error) {
+                    return res.status(403).json({ message: error.message });
+                };
+
+                let loggedUser = user;
+                loggedUser.password = null;
+
+                return res.json(loggedUser);
+            });
+        })(req, res, next);
+    },
+
+
+    /* LOGOUT TODO */
 }

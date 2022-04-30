@@ -4,6 +4,7 @@ const userController = require('../controllers/users.controllers');
 const router = express.Router();
 
 router.post('/register', userController.registerPost);
+router.post('/login', userController.loginPost);
 
 
 module.exports = router;

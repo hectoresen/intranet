@@ -1,0 +1,25 @@
+.home{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    &__navbar{
+        width: 15%;
+        display: flex;
+        justify-content: start;
+    }
+    &__container{
+        width: 85%;
+        &-header{
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            &-text{
+                margin-top: 1%;
+                padding: 30px;
+                text-transform: uppercase;
+                background-color: #CAF1F8;
+                box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+            }
+        }
+    }
+}
