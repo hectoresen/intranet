@@ -11,15 +11,27 @@
         margin-top: 5%;
         display: flex;
         justify-content: space-around;
-        &-card{
-            width: 10vh;
-            height: 20vh;
+        &__cards{
             display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: #E6E6E6;
-            border: 1px solid black;
-            border-radius: 2px;
+            justify-content: space-around;
+            &-card{
+                width: 10vh;
+                height: 20vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+                background-color: #E6E6E6;
+                border: 1px solid black;
+                border-radius: 2px;
+                margin: 2%;
+            }
+        }
+    }
+    &__add{
+        width: 30%;
+        border: 3px solid #F2F3F5;
+        &-form{
         }
     }
 }
