@@ -1,6 +1,6 @@
-import { Access, Home, News } from './pages';
+import { Access, CreateNews, Home, News } from './pages';
 import { Routes, Route } from "react-router-dom";
-import { PrivateRoute } from './components';
+import { PrivateRoute, PrivateRouteAdmin } from './components';
 import './App.scss';
 
 function App() {
@@ -10,6 +10,7 @@ function App() {
         <Route path="/" element={<Access/>}/>
         <Route path="/home" element={<PrivateRoute component={<Home/>}/>}/>
         <Route path="/home/news" element={<PrivateRoute component={<News/>}/>}/>
+        <Route path="/home/news/post" element={<PrivateRouteAdmin component={<CreateNews/>} />}/>
       </Routes>
       </div>
   );

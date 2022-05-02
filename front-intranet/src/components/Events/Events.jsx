@@ -24,7 +24,7 @@ const Events = ({dispatch, user, eventsError, events}) => {
       strMonth = `0${month}`
     }
     dispatch(findEvent(`${year}-${strMonth}-${strDay}`))
-  },[])
+  },[events])
 
   const [eventData, setEventData] = useState({eventTitle: '', eventDate: '', user: user._id});
 
@@ -61,7 +61,7 @@ const Events = ({dispatch, user, eventsError, events}) => {
 
       <div className='events__calendar'>
         <div className='events__calendar__cards'>
-          <div className='events__calendar__cards-card'>
+          <div className={(events.length >0) ? 'events__calendar__cards-card-active' : 'events__calendar__cards-card'}>
             <p>{mapToDate(currentDate).ddStr}</p>
             <p>{mapToDate(currentDate).dd}</p>
           </div>
@@ -124,10 +124,10 @@ const Events = ({dispatch, user, eventsError, events}) => {
           <h3>Eventos de hoy:</h3>
       <div className='events__info'>
           {
-            (events.length >1)
+            (events.length >0)
             ?
             events.map(element =>{
-              return <div className='events__info-events'>
+              return <div className='events__info-events' key={element.Title}>
                 <Grid.Container gap={2}>
                   <Grid sm={12} md={5}>
                     <Card css={{ mw: "330px" }}>

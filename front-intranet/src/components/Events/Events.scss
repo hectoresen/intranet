@@ -29,6 +29,21 @@
                 & p{
                     text-transform: uppercase;
                 }
+                &-active{
+                    width: 10vh;
+                    height: 20vh;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    flex-direction: column;
+                    background-color: #E6E6E6;
+                    border-radius: 2px;
+                    margin: 2%;
+                    box-shadow: rgb(155, 252, 0) 0px 1px 4px, rgb(155, 252, 0) 0px 0px 0px 3px;
+                    & p{
+                        text-transform: uppercase;
+                    }
+                }
             }
         }
     }
