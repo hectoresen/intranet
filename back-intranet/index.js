@@ -2,6 +2,7 @@ const express = require('express');
 const passport = require('passport');
 const cors = require('cors');
 const usersRouter = require('./routes/auth.users');
+const eventsRouter = require('./routes/events.routes');
 
 const {connectToDb} = require('./config/db');
 connectToDb();
@@ -28,6 +29,7 @@ server.use(express.urlencoded({extended: false}));
 server.use(passport.initialize());
 
 server.use('/auth',usersRouter);
+server.use('/events', eventsRouter);
 
 
 server.use('*', (req, res, next) =>{

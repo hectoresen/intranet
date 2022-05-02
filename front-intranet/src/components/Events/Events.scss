@@ -12,6 +12,7 @@
         display: flex;
         justify-content: space-around;
         &__cards{
+            width: 50%;
             display: flex;
             justify-content: space-around;
             &-card{
@@ -22,9 +23,12 @@
                 align-items: center;
                 flex-direction: column;
                 background-color: #E6E6E6;
-                border: 1px solid black;
                 border-radius: 2px;
                 margin: 2%;
+                box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+                & p{
+                    text-transform: uppercase;
+                }
             }
         }
     }
@@ -32,6 +36,18 @@
         width: 30%;
         border: 3px solid #F2F3F5;
         &-form{
+        }
+    }
+    &__info{
+        display: flex;
+        justify-content: space-around;
+        color: red;
+        &-events{
+            margin-top: 5%;
+            span {
+                color: #5276A6;
+                font-weight: bold;
+            }
         }
     }
 }

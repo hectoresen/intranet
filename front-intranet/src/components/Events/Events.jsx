@@ -1,24 +1,38 @@
-import React, { useState } from 'react';
-import Avatar from '@mui/material/Avatar';
+import React, { useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+import { Card, Grid, Text, Divider, Row } from "@nextui-org/react";
+import { createEvent, findEvent } from '../../redux/actions/events.actions';
+import {connect} from 'react-redux';
 import './Events.scss';
 
-const Events = () => {
-  const [eventData, setEventData] = useState({eventTitle: '', eventDate: ''});
+const Events = ({dispatch, user, eventsError, events}) => {
+
+  useEffect(() =>{
+    let day = currentDate.getDate();
+    let strDay = '';
+    let month = currentDate.getMonth() +1;
+    let strMonth = '';
+    let year = currentDate.getFullYear();
+
+    if(day.toLocaleString.length <2){
+        strDay = `0${day}`
+    }
+    if(month.toLocaleString.length <2){
+      strMonth = `0${month}`
+    }
+    dispatch(findEvent(`${year}-${strMonth}-${strDay}`))
+  },[])
+
+  const [eventData, setEventData] = useState({eventTitle: '', eventDate: '', user: user._id});
 
   const currentDate = new Date();
   const tomorrowDate = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
   const thirdDay = new Date(new Date().getTime() + 48 * 60 * 60 * 1000);
   const fourthDay = new Date(new Date().getTime() + 72 * 60 * 60 * 1000);
-  console.log(fourthDay);
-
+  const fiveDay = new Date(new Date().getTime() + 96 * 60 * 60 * 1000);
 
   const mapToDate = (date) =>(
     {
@@ -29,13 +43,14 @@ const Events = () => {
     }
   )
 
+
   const inputEvents = (ev) =>{
     const {name, value} = ev.target;
     setEventData({...eventData, [name]: value});
   }
   const submitEvents = (ev) =>{
     ev.preventDefault();
-    console.log(eventData);
+    dispatch(createEvent(eventData));
   };
 
   return (
@@ -43,6 +58,7 @@ const Events = () => {
       <div className='events__month'>
         <p>Mes de {mapToDate(currentDate).mm}, {mapToDate(currentDate).yy}</p>
       </div>
+
       <div className='events__calendar'>
         <div className='events__calendar__cards'>
           <div className='events__calendar__cards-card'>
@@ -54,13 +70,16 @@ const Events = () => {
             <p>{mapToDate(tomorrowDate).dd}</p>
           </div>
           <div className='events__calendar__cards-card'>
-            <p>Dia 3</p>
+            <p>{mapToDate(thirdDay).ddStr}</p>
+            <p>{mapToDate(thirdDay).dd}</p>
           </div>
           <div className='events__calendar__cards-card'>
-            Día 4
+            <p>{mapToDate(fourthDay).ddStr}</p>
+            <p>{mapToDate(fourthDay).dd}</p>
           </div>
           <div className='events__calendar__cards-card'>
-            Día 5
+            <p>{mapToDate(fiveDay).ddStr}</p>
+            <p>{mapToDate(fiveDay).dd}</p>
           </div>
         </div>
 
@@ -98,13 +117,47 @@ const Events = () => {
                 Crear
               </Button>
               </div>
-
             </Box>
           </Container>
         </div>
       </div>
+          <h3>Eventos de hoy:</h3>
+      <div className='events__info'>
+          {
+            (events.length >1)
+            ?
+            events.map(element =>{
+              return <div className='events__info-events'>
+                <Grid.Container gap={2}>
+                  <Grid sm={12} md={5}>
+                    <Card css={{ mw: "330px" }}>
+                      <Card.Header>
+                        <Text b>{element.Title}</Text>
+                      </Card.Header>
+                      <Divider />
+                      <Card.Body css={{ py: "$10" }}>
+                        <Text>
+                          Hoy a las <span>{element.DateTime}</span>, creado por el usuario, <span>{element.User.name}</span>
+                        </Text>
+                      </Card.Body>
+                      <Divider />
+                    </Card>
+                  </Grid>
+                </Grid.Container>
+              </div>
+            })
+            :
+            <p>No hay eventos</p>
+          }
+
+      </div>
     </div>
   )
 }
+const mapStateToProps = (state) =>({
+  user: state.auth.user,
+  eventsError: state.events.eventErrors,
+  events: state.events.event
+})
 
-export default Events;
+export default connect(mapStateToProps)(Events);
