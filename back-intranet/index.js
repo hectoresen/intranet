@@ -3,6 +3,8 @@ const passport = require('passport');
 const cors = require('cors');
 const usersRouter = require('./routes/auth.users');
 const eventsRouter = require('./routes/events.routes');
+const newsRouter = require('./routes/news.routes');
+const commentsRouter = require('./routes/comments.routes');
 
 const {connectToDb} = require('./config/db');
 connectToDb();
@@ -30,6 +32,8 @@ server.use(passport.initialize());
 
 server.use('/auth',usersRouter);
 server.use('/events', eventsRouter);
+server.use('/news', newsRouter);
+server.use('/comments', commentsRouter);
 
 
 server.use('*', (req, res, next) =>{

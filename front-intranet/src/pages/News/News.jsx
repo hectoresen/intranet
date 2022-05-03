@@ -1,52 +1,63 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Navbar } from '../../components';
 import {connect} from 'react-redux';
 import Button from '@mui/material/Button';
-import { useLocation, useNavigate } from 'react-router-dom';
-
-import { styled } from '@mui/material/styles';
+import { useNavigate } from 'react-router-dom';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
-import Collapse from '@mui/material/Collapse';
-import Avatar from '@mui/material/Avatar';
-import IconButton from '@mui/material/IconButton';
+import Container from '@mui/material/Container';
+import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import { red } from '@mui/material/colors';
+import { findNews } from '../../redux/actions/news.actions';
+import { createComment, findComment } from '../../redux/actions/comments.actions';
 import './News.scss';
 
-const News = ({dispatch, user}) => {
-    const navigate = useNavigate();
+const News = ({dispatch, user, news, comments}) => {
+
     const currentDate = new Date();
-    const tomorrowDate = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
-    const thirdDay = new Date(new Date().getTime() + 48 * 60 * 60 * 1000);
-    const fourthDay = new Date(new Date().getTime() + 72 * 60 * 60 * 1000);
+    const navigate = useNavigate();
+    const [showNotice, setShowNotice] = useState(false);
+    const [selectNotice, setSelectNotice] = useState({});
+    const [newComment, setNewComment] = useState({comment: '', user: '', news: '', project: ''});
+    const [commentsList, setCommentsList] = useState([]);
+
 
     useEffect(() =>{
-
+        dispatch(findNews());
     },[])
-
-    const getStrDate = (date) =>{
-        let day = date.getDate();
-        let strDay = '';
-        let month = date.getMonth() +1;
-        let strMonth = '';
-        let year = date.getFullYear();
-
-        if(day.toLocaleString.length <2){
-            strDay = `0${day}`
-        }
-        if(month.toLocaleString.length <2){
-            strMonth = `0${month}`
-        }
-        return `${strDay}/${strMonth}/${year}`
-    }
 
     const createNewsletter = (ev) =>{
         ev.preventDefault();
         navigate('/home/news/post');
+    }
+
+    const getDateNew = (date) =>{
+        setCommentsList([])
+        setShowNotice(false);
+        news.map(element =>{
+            if(element.dateNew === date){
+                dispatch(findComment(element.id))
+                setSelectNotice(element);
+                setShowNotice(true)
+            }
+        })
+        if(comments.length >0){
+            setCommentsList(comments);
+            console.log('Hay comentarios');
+        }else{
+            console.log('No hay comentarios');
+        }
+    }
+
+    const handleComment = (ev) => {
+        const {name, value} = ev.target;
+        setNewComment({...newComment, [name]: value, user: selectNotice.user._id, news: selectNotice.id})
+    };
+
+    const sendComment = (ev) =>{
+        ev.preventDefault();
+        dispatch(createComment(newComment));
     }
 
 
@@ -57,24 +68,22 @@ const News = ({dispatch, user}) => {
             </div>
             <div className='news__container'>
                 <div className='news__container__dates'>
-                    <div className='news__container__dates-card'>
-                        <p>Boletin de noticias</p>
-                        <span>{getStrDate(currentDate)}</span>
-                    </div>
-                    <div className='news__container__dates-card'>
-                        <p>Boletin de noticias</p>
-                        <span>{getStrDate(tomorrowDate)}</span>
-                    </div>
-                    <div className='news__container__dates-card'>
-                        <p>Boletin de noticias</p>
-                        <span>{getStrDate(thirdDay)}</span>
-                    </div>
-                    <div className='news__container__dates-card'>
-                        <p>Boletin de noticias</p>
-                        <span>{getStrDate(fourthDay)}</span>
-                    </div>
+                {news.map(element =>{
+                        return <div className='news__container__dates-card'
+                                tabIndex={0}
+                                key={element.title}
+                                onClick={() =>{getDateNew(element.dateNew)}}
+                                >
+                                    <p>Noticias</p>
+                                    <span>{element.dateNew}</span>
+                                </div>
+                })}
                 </div>
                 <div className='news__container__news'>
+                    <div className='news__container__news-text'>
+                        <h3>Bienvenido al boletín de noticias</h3>
+
+                    </div>
                     {(user.role === "admin")
                     ?
                     <Button
@@ -90,19 +99,67 @@ const News = ({dispatch, user}) => {
                     ''
                     }
                 <div className='news__container__news-new'>
-                <Card sx={{ maxWidth: 600 }}>
-                    <CardHeader
-                        title="Shrimp and Chorizo Paella"
-                        subheader="September 14, 2016"
-                    />
-                    <CardContent>
-                        <Typography variant="body2" color="text.secondary">
-                        This impressive paella is a perfect party dish and a fun meal to cook
-                        together with your guests. Add 1 cup of frozen peas along with the mussels,
-                        if you like.
-                        </Typography>
-                    </CardContent>
-                    </Card>
+
+                    {(showNotice)
+                    ?
+                    <div>
+                        <Card sx={{ maxWidth: 600 }}>
+                            <CardHeader
+                                title={selectNotice.title}
+                                subheader={selectNotice.dateNew}
+                            />
+                            <CardContent>
+                                <Typography variant="body4" color="text.primary">
+                                    {selectNotice.description}
+                                </Typography>
+                            </CardContent>
+                            <Typography variant="body2" color="text.secondary">
+                                    Noticia creada por {selectNotice.user.name}
+                            </Typography>
+                        </Card>
+                        <div className='news__container__news-new-comments'>
+                            <div className='news__container__news-new-comments-input'>
+                                <Container maxWidth="xs">
+                                    <TextField
+                                        margin="normal"
+                                        required
+                                        fullWidth
+                                        id="comment"
+                                        label="Escribe tu comentario"
+                                        name="comment"
+                                        type="text"
+                                        onChange={handleComment}
+                                        autoFocus>
+                                    </TextField>
+                                    <Button
+                                        type="submit"
+                                        variant="contained"
+                                        onClick={sendComment}
+                                        id="btn"
+                                        sx={{ mt: 1, mb: 2 }}
+                                    >
+                                        Enviar
+                                    </Button>
+                                </Container>
+                            </div>
+                            {(commentsList.length >0)
+                            ?
+                            commentsList.map(element =>{
+                                console.log(element);
+                                return <div>
+                                    <h4>{element.User.name}</h4>
+                                    <p>{element.comment}</p>
+                                </div>
+                            })
+                            :
+                            <p>No hay comentarios recientes</p>
+                            }
+
+                        </div>
+                    </div>
+                    :
+                    <p>Puedes navegar en el panel de la izquierda para ver más noticias</p>
+                    }
                 </div>
                 </div>
             </div>
@@ -111,6 +168,8 @@ const News = ({dispatch, user}) => {
 }
 const mapStateToProps = (state) =>({
     user:state.auth.user,
+    news: state.news.news,
+    comments: state.comments.comments,
 })
 
 export default connect(mapStateToProps)(News);

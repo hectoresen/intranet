@@ -24,7 +24,7 @@ const Events = ({dispatch, user, eventsError, events}) => {
       strMonth = `0${month}`
     }
     dispatch(findEvent(`${year}-${strMonth}-${strDay}`))
-  },[events])
+  },[])
 
   const [eventData, setEventData] = useState({eventTitle: '', eventDate: '', user: user._id});
 

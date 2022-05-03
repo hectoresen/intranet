@@ -2,16 +2,17 @@ import * as actions from '../actions/events.actions';
 
 const eventsResult = {
     event: [],
-    eventErrors: ''
+    eventErrors: null,
+    createdEvent: null
 }
 
 export const eventsReducer = (state = eventsResult, action) =>{
     switch(action.type){
         case (actions.CREATE_EVENT_OK): {
-            return {...state, event: 'Evento creado', eventErrors: false};
+            return {...state, createdEvent: true, eventErrors: false};
         }
         case (actions.CREATE_EVENT_ERROR): {
-            return {...state, event: false, eventErrors: action.payload};
+            return {...state, createdEvent: false};
         }
         case (actions.FIND_EVENT_OK): {
             return {...state, event: action.payload, eventErrors: false};

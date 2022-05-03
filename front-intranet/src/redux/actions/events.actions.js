@@ -32,7 +32,7 @@ export const createEvent = (form) =>{
         });
         const createEventResult = await createEventRequest.json();
 
-        if(createEventResult.ok){
+        if(createEventResult){
             dispatch({type: CREATE_EVENT_OK, payload: createEventResult})
         }else{
             dispatch({type: CREATE_EVENT_ERROR, payload: createEventResult.message})
