@@ -70,6 +70,7 @@ passport.use(
         },
         async (req, name, password, done) => {
             try {
+                console.log('Passport login->',name);
 
                 if (!name) {
                     const error = new Error("Invalid name");
@@ -79,6 +80,7 @@ passport.use(
                 const currentUser = await User.findOne({ name: name.toLowerCase() });
 
                 if (!currentUser) {
+                    console.log(currentUser);
                     const error = new Error("The user does not exist!");
                     return done(error);
                 }
@@ -90,11 +92,13 @@ passport.use(
 
                 if (!isValidPassword) {
                     const error = new Error("The email or password is invalid!");
+                    console.log(2);
                     return done(error);
                 }
 
                 return done(null, currentUser);
             } catch (err) {
+                console.log(3);
                 return done(err);
             }
         }

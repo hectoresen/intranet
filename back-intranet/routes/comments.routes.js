@@ -55,9 +55,6 @@ router.post('/find/:id', async(req, res, next) =>{
         .catch(error =>{
             res.status(400).json(error);
         })
-
-
-
     }catch(error){
         return next(error);
     }

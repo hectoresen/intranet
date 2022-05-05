@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { adminReducer } from './admin.reducer';
 import { authReducer } from './auth.reducer';
 import { commentsReducer } from './comments.reducer';
 import { eventsReducer } from './events.reducer';
@@ -10,6 +11,7 @@ export const rootReducer = combineReducers(
         events: eventsReducer,
         news: newsReducer,
         comments: commentsReducer,
+        admin: adminReducer
     }
 );
 

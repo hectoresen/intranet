@@ -10,12 +10,19 @@ import './Events.scss';
 
 const Events = ({dispatch, user, eventsError, events}) => {
 
+  const currentDate = new Date();
+  const tomorrowDate = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
+  const thirdDay = new Date(new Date().getTime() + 48 * 60 * 60 * 1000);
+  const fourthDay = new Date(new Date().getTime() + 72 * 60 * 60 * 1000);
+  const fiveDay = new Date(new Date().getTime() + 96 * 60 * 60 * 1000);
+  const [eventData, setEventData] = useState({eventTitle: '', eventDate: '', user: user._id});
+
+  let day = currentDate.getDate();
+  let strDay = '';
+  let month = currentDate.getMonth() +1;
+  let strMonth = '';
+  let year = currentDate.getFullYear();
   useEffect(() =>{
-    let day = currentDate.getDate();
-    let strDay = '';
-    let month = currentDate.getMonth() +1;
-    let strMonth = '';
-    let year = currentDate.getFullYear();
 
     if(day.toLocaleString.length <2){
         strDay = `0${day}`
@@ -26,13 +33,8 @@ const Events = ({dispatch, user, eventsError, events}) => {
     dispatch(findEvent(`${year}-${strMonth}-${strDay}`))
   },[])
 
-  const [eventData, setEventData] = useState({eventTitle: '', eventDate: '', user: user._id});
 
-  const currentDate = new Date();
-  const tomorrowDate = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
-  const thirdDay = new Date(new Date().getTime() + 48 * 60 * 60 * 1000);
-  const fourthDay = new Date(new Date().getTime() + 72 * 60 * 60 * 1000);
-  const fiveDay = new Date(new Date().getTime() + 96 * 60 * 60 * 1000);
+
 
   const mapToDate = (date) =>(
     {
@@ -61,7 +63,7 @@ const Events = ({dispatch, user, eventsError, events}) => {
 
       <div className='events__calendar'>
         <div className='events__calendar__cards'>
-          <div className={(events.length >0) ? 'events__calendar__cards-card-active' : 'events__calendar__cards-card'}>
+          <div className={(events.length >0 || currentDate) ? 'events__calendar__cards-card-active' : 'events__calendar__cards-card'}>
             <p>{mapToDate(currentDate).ddStr}</p>
             <p>{mapToDate(currentDate).dd}</p>
           </div>
@@ -121,13 +123,12 @@ const Events = ({dispatch, user, eventsError, events}) => {
           </Container>
         </div>
       </div>
-          <h3>Eventos de hoy:</h3>
       <div className='events__info'>
           {
             (events.length >0)
             ?
             events.map(element =>{
-              return <div className='events__info-events' key={element.Title}>
+              return <div className='events__info-events' key={element.DateTime}>
                 <Grid.Container gap={2}>
                   <Grid sm={12} md={5}>
                     <Card css={{ mw: "330px" }}>
@@ -137,7 +138,7 @@ const Events = ({dispatch, user, eventsError, events}) => {
                       <Divider />
                       <Card.Body css={{ py: "$10" }}>
                         <Text>
-                          Hoy a las <span>{element.DateTime}</span>, creado por el usuario, <span>{element.User.name}</span>
+                          Hoy a las <span>{element.DateTime}</span>, creado por el usuario, <span>{element.User?.name}</span>
                         </Text>
                       </Card.Body>
                       <Divider />
@@ -147,7 +148,10 @@ const Events = ({dispatch, user, eventsError, events}) => {
               </div>
             })
             :
-            <p>No hay eventos</p>
+            <div className='events__info-nevents'>
+              <h3>Eventos de hoy:</h3>
+              <p>¡Vaya! Hoy no hay ningún evento programado</p>
+            </div>
           }
 
       </div>

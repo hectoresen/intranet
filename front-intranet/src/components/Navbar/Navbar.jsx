@@ -8,6 +8,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const navHome = () => navigate('/home');
   const navNews = () => navigate('/home/news');
+  const navProjects = () => navigate('/home/projects');
 
   return (
     <div className='navbar'>
@@ -15,7 +16,7 @@ const Navbar = () => {
         <ul>
           <li className='navbar__items-item1' onClick={navHome}><ImHome3/></li>
           <li className='navbar__items-item2' onClick={navNews}><FaUniversity/></li>
-          <li className='navbar__items-item3'><FaRocket/></li>
+          <li className='navbar__items-item3' onClick={navProjects}><FaRocket/></li>
         </ul>
       </div>
     </div>

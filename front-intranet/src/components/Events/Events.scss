@@ -22,9 +22,10 @@
                 justify-content: center;
                 align-items: center;
                 flex-direction: column;
-                background-color: #E6E6E6;
+                background-color: #5276A6;
                 border-radius: 2px;
                 margin: 2%;
+                color: white;
                 box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
                 & p{
                     text-transform: uppercase;
@@ -36,10 +37,11 @@
                     justify-content: center;
                     align-items: center;
                     flex-direction: column;
-                    background-color: #E6E6E6;
+                    background-color: #5276A6;
                     border-radius: 2px;
                     margin: 2%;
-                    box-shadow: rgb(155, 252, 0) 0px 1px 4px, rgb(155, 252, 0) 0px 0px 0px 3px;
+                    color: orange;
+                    box-shadow: black 0px 1px 4px, black 0px 0px 0px 3px;
                     & p{
                         text-transform: uppercase;
                     }
@@ -56,7 +58,12 @@
     &__info{
         display: flex;
         justify-content: space-around;
-        color: red;
+        &-nevents{
+            margin-top: 5%;
+            p {
+                margin-top: 10%;
+            }
+        }
         &-events{
             margin-top: 5%;
             span {

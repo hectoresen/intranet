@@ -15,6 +15,11 @@
             font-size: 1.9rem;
             list-style: none;
         }
+        &-item1:hover, &-item2:hover, &-item3:hover{
+            transition: 0.5s;
+            color: orange;
+            cursor: pointer;
+        }
         &-item2, &-item3{
             margin-top: 20vh;
         }

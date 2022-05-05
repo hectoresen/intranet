@@ -1,0 +1,26 @@
+.adminpanel{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    &__menu{
+        height: 8vh;
+        background-color: #5276A6;
+        color: white;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        &-item{
+            &-home, &-news, &-projects, &-users{
+                padding: 1%;
+                box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+            }
+            &-home:hover, &-news:hover, &-projects:hover, &-users:hover{
+                transition: 0.5s;
+                color: orange;
+                cursor: pointer;
+            }
+        }
+    }
+}

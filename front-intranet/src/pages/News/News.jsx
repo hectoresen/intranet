@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Navbar } from '../../components';
 import {connect} from 'react-redux';
 import Button from '@mui/material/Button';
-import { useNavigate } from 'react-router-dom';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
@@ -11,12 +10,12 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { findNews } from '../../redux/actions/news.actions';
 import { createComment, findComment } from '../../redux/actions/comments.actions';
+import { FaRegCommentDots, FaCommentSlash } from 'react-icons/fa';
 import './News.scss';
 
 const News = ({dispatch, user, news, comments}) => {
 
     const currentDate = new Date();
-    const navigate = useNavigate();
     const [showNotice, setShowNotice] = useState(false);
     const [selectNotice, setSelectNotice] = useState({});
     const [newComment, setNewComment] = useState({comment: '', user: '', news: '', project: ''});
@@ -27,13 +26,17 @@ const News = ({dispatch, user, news, comments}) => {
         dispatch(findNews());
     },[])
 
-    const createNewsletter = (ev) =>{
-        ev.preventDefault();
-        navigate('/home/news/post');
-    }
+    useEffect(() =>{
+        setCommentsList(comments);
+        if(comments.length >0){
+            setCommentsList(comments);
+            console.log('Hay comentarios');
+        }else{
+            console.log('No hay comentarios');
+        }
+    },[comments])
 
     const getDateNew = (date) =>{
-        setCommentsList([])
         setShowNotice(false);
         news.map(element =>{
             if(element.dateNew === date){
@@ -42,12 +45,6 @@ const News = ({dispatch, user, news, comments}) => {
                 setShowNotice(true)
             }
         })
-        if(comments.length >0){
-            setCommentsList(comments);
-            console.log('Hay comentarios');
-        }else{
-            console.log('No hay comentarios');
-        }
     }
 
     const handleComment = (ev) => {
@@ -84,26 +81,12 @@ const News = ({dispatch, user, news, comments}) => {
                         <h3>Bienvenido al boletín de noticias</h3>
 
                     </div>
-                    {(user.role === "admin")
-                    ?
-                    <Button
-                        type="submit"
-                        margin="10px"
-                        variant="contained"
-                        onClick={createNewsletter}
-                        sx={{ mt: 3, mb: 2 }}
-                        >
-                        Crear noticia
-                    </Button>
-                    :
-                    ''
-                    }
                 <div className='news__container__news-new'>
 
                     {(showNotice)
                     ?
-                    <div>
-                        <Card sx={{ maxWidth: 600 }}>
+                    <div className='container'>
+                        <Card sx={{ maxWidth: 900}}>
                             <CardHeader
                                 title={selectNotice.title}
                                 subheader={selectNotice.dateNew}
@@ -118,7 +101,7 @@ const News = ({dispatch, user, news, comments}) => {
                             </Typography>
                         </Card>
                         <div className='news__container__news-new-comments'>
-                            <div className='news__container__news-new-comments-input'>
+                            <div className='news__container__news-new-comments-form'>
                                 <Container maxWidth="xs">
                                     <TextField
                                         margin="normal"
@@ -146,13 +129,20 @@ const News = ({dispatch, user, news, comments}) => {
                             ?
                             commentsList.map(element =>{
                                 console.log(element);
-                                return <div>
-                                    <h4>{element.User.name}</h4>
-                                    <p>{element.comment}</p>
-                                </div>
+                                return <div className='comments'>
+                                            <div className='comments__results'>
+                                                <div className='comments__results-icon'><FaRegCommentDots/></div>
+                                                <p>{element.comment}</p>
+                                                <h6 className='comments__results-comment'>Comentario realizado por: <span>{element.User.name}</span></h6>
+                                            </div>
+                                            <div className='comments__results-dv'></div>
+                                        </div>
                             })
                             :
-                            <p>No hay comentarios recientes</p>
+                            <div className='comments__results'>
+                                <div className='comments__results-icon'><FaCommentSlash/></div>
+                                <p>No hay comentarios recientes</p>
+                            </div>
                             }
 
                         </div>
