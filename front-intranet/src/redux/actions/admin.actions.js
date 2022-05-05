@@ -4,7 +4,11 @@ export const FIND_USERS_ERROR = "FIND_USERS_ERROR";
 
 export const DELETE_USER = "DELETE_USER";
 export const DELETE_USER_OK = "DELETE_USER_OK";
-export const DELETE_USER_ERROR = "DELETE_USER_ERROR"
+export const DELETE_USER_ERROR = "DELETE_USER_ERROR";
+
+export const EDIT_USER = "EDIT_USER";
+export const EDIT_USER_OK = "EDIT_USER_OK";
+export const EDIT_USER_ERROR = "EDIT_USER_ERROR";
 
 export const findUsers = () =>{
     return async(dispatch) =>{
@@ -30,7 +34,6 @@ export const findUsers = () =>{
 }
 
 export const deleteUser = (userId) =>{
-    console.log('LLEGA LA ID', userId);
     return async(dispatch) =>{
         dispatch({type: DELETE_USER});
 
@@ -51,4 +54,35 @@ export const deleteUser = (userId) =>{
             dispatch({type: DELETE_USER_ERROR})
         };
     }
-}
+};
+
+export const editPass = (userId, newPass) =>{
+    const editInfo = {
+        userId: userId,
+        newPass: newPass
+    };
+    return async(dispatch) =>{
+        dispatch({type: EDIT_USER});
+
+        const editUserRequest = await fetch('http://localhost:4500/admin/modify/pass', {
+            method: "PUT",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin" : "*",
+            },
+            credentials: "include",
+            body: JSON.stringify(editInfo),
+        });
+
+        const editUserResult = await editUserRequest.json();
+
+        if(editUserResult){
+            dispatch({type: EDIT_USER_OK, payload: editUserResult})
+        }else{
+            dispatch({type: EDIT_USER_ERROR})
+        };
+    }
+};
+
+

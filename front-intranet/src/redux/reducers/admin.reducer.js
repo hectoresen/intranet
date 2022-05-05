@@ -20,6 +20,12 @@ export const adminReducer = (state = INITIAL_STATE, action) =>{
         case(actions.DELETE_USER_ERROR): {
             return {...state, userDeleted: false}
         }
+        case(actions.EDIT_USER_OK) : {
+            return {...state}
+        }
+        case(actions.EDIT_USER_ERROR) : {
+            return {...state, error: true }
+        }
         default:
             return state
     }

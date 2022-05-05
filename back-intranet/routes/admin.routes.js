@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/users');
+const bcrypt = require("bcrypt");
 
 router.get('/users',async (req, res, next) =>{
     try{
@@ -18,6 +19,23 @@ router.delete('/delete/:userId', async(req, res, next) =>{
 
     }catch(error){
         return next(error);
+    }
+});
+
+
+router.put('/modify/pass', async(req, res, next) =>{
+    try{
+        const {userId, newPass} = req.body;
+
+        const saltRound = 10;
+        const hash = await bcrypt.hash(newPass, saltRound);
+        const newUser = await User.findByIdAndUpdate(userId, {$set: {password: hash}});
+
+        return res.status(200).json(newUser)
+
+    }catch(error){
+        return next(error);
+
     }
 })
 

@@ -70,8 +70,6 @@ passport.use(
         },
         async (req, name, password, done) => {
             try {
-                console.log('Passport login->',name);
-
                 if (!name) {
                     const error = new Error("Invalid name");
                     return done(error);
@@ -80,7 +78,6 @@ passport.use(
                 const currentUser = await User.findOne({ name: name.toLowerCase() });
 
                 if (!currentUser) {
-                    console.log(currentUser);
                     const error = new Error("The user does not exist!");
                     return done(error);
                 }

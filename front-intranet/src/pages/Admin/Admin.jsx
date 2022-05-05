@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { CreateNews } from '../../components';
 import { useNavigate } from 'react-router-dom';
 import {connect} from 'react-redux';
-import { deleteUser, findUsers } from '../../redux/actions/admin.actions';
+import { deleteUser, editPass, findUsers } from '../../redux/actions/admin.actions';
 import { Row, Text, Input, Modal, Checkbox, Avatar } from '@nextui-org/react';
 
 import { classNames } from 'primereact/utils';
@@ -23,6 +23,9 @@ import './Admin.scss';
 const Admin = ({dispatch, adminUsers}) => {
     const navigate = useNavigate();
     const [usersList, setUsersList] = useState([]);
+    const [showEditModal, setShowEditModal] = useState(false);
+    const [selectedUser, setSelectedUser] = useState({});
+    const [newPass, setNewPass] = useState('');
 
     useEffect(() =>{
         dispatch(findUsers());
@@ -45,7 +48,6 @@ const Admin = ({dispatch, adminUsers}) => {
         if(item === 'home') navigate('/home');
     }
 
-        /* PANEL HEADER */
     const header = (
         <div className="panel__products-header">
             <span className="p-input-icon-left">
@@ -55,22 +57,27 @@ const Admin = ({dispatch, adminUsers}) => {
         </div>
     );
 
-    /* DELETE & EDIT USERS */
-    const editUser = (ev, user) =>{
-        ev.preventDefault()
-        console.log('Usuario a editar ->',user);
+    const editUserModal = (user) =>{
+        setSelectedUser(user);
+        setShowEditModal(!showEditModal);
+    }
+
+    const handdlePassValue = (ev) => setNewPass(ev.target.value);
+
+    const editUserPass = (ev) =>{
+        setShowEditModal(!showEditModal);
+        dispatch(editPass(selectedUser._id, newPass));
     }
 
     const deleteUserSelected = (user) =>{
         dispatch(deleteUser(user._id))
     }
-    /////
 
     const getUserDate = (user) => user.createdAt.toLocaleString().substring(0,10);
 
     const editPassBtn = (user) => {
         return <div className='icons'>
-                <Button icon="pi pi-pencil" className='p-button-success' iconPos='right' onClick={() =>{editUser(user)}}></Button>
+                <Button icon="pi pi-pencil" className='p-button-success' iconPos='right' onClick={() =>{editUserModal(user)}}></Button>
                 <Button icon="pi pi-trash" className='p-button-warning' iconPos='left' onClick={() =>{deleteUserSelected(user)}}></Button>
             </div>
     }
@@ -107,13 +114,60 @@ const Admin = ({dispatch, adminUsers}) => {
                 {(showPanel.users)
                 ?
                 <div className='adminpanel__container-users'>
-                <DataTable value={adminUsers}  header={header} responsiveLayout="scroll">
-                    <Column field='name' header='Nombre' body={adminUsers.name}></Column>
-                    <Column field='role' header='Permisos' body={adminUsers.role}></Column>
+                <DataTable value={usersList}  header={header} responsiveLayout="scroll">
+                    <Column field='name' header='Nombre' body={usersList.name}></Column>
+                    <Column field='role' header='Permisos' body={usersList.role}></Column>
                     <Column field='date' header='Fecha de registro' body={getUserDate}></Column>
                     <Column field='password' header='Acciones' body={editPassBtn}></Column>
                 </DataTable>
-                    {/* DELETE MODAL CONDITIONAL */}
+
+                    {(showEditModal)
+                    ?
+                    <div>
+                        <p>SAD</p>
+                    <Modal
+                        closeButton
+                        preventClose
+                        aria-labelledby="modal-title"
+                        open={showEditModal}
+                        onClose={() =>{setShowEditModal(!showEditModal)}}
+                    >
+                        <Modal.Header>
+                            <Text id="modal-title" size={18}>
+                            <Text b size={18}>
+                                Panel de cambio de contraseña
+                            </Text>
+                            </Text>
+                        </Modal.Header>
+                        <Modal.Body>
+                                <Input
+                                    clearable
+                                    bordered
+                                    fullWidth
+                                    color="primary"
+                                    size="lg"
+                                    labelPlaceholder="Introduce el nuevo stock de este artículo"
+                                    type="text"
+                                    name="stock"
+                                    value={newPass}
+                                    onChange={handdlePassValue}
+                                />
+                            <Row justify="space-between">
+                            <Text color="error" size={14}>
+                                Esta acción es irreversible
+                            </Text>
+                            </Row>
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <Button auto onClick={(editUserPass)}>
+                                Editar usuario
+                            </Button>
+                        </Modal.Footer>
+                    </Modal>
+                </div>
+                    :
+                    ''
+                }
                 </div>
                 :
                 ''}
