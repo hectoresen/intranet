@@ -97,7 +97,7 @@ const News = ({dispatch, user, news, comments}) => {
                                 </Typography>
                             </CardContent>
                             <Typography variant="body2" color="text.secondary">
-                                    Noticia creada por {selectNotice.user.name}
+                                    Noticia creada por {selectNotice?.user.name}
                             </Typography>
                         </Card>
                         <div className='news__container__news-new-comments'>
