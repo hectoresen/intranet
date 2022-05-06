@@ -1,7 +1,7 @@
 import * as actions from '../actions/events.actions';
 
 const eventsResult = {
-    event: [],
+    event: false,
     eventErrors: null,
     createdEvent: null
 }

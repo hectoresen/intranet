@@ -27,15 +27,31 @@ router.post('/create', async(req, res, next) =>{
     }
 });
 
-router.post('/info/:eventDate', async(req, res, next) =>{
-    const {eventDate} = req.params;
-
+router.post('/info/checkEvent', async(req, res, next) =>{
     try{
-        if(!eventDate){
+        const {date, userId} = req.body;
+
+        if(!date || !userId){
             return res.status(404).json({message: 'No hay eventos para esta fecha'})
         }
+        const eventRequest = await Event.find({$and:[{eventDate:{$eq: date}}, {user:{$eq: userId}}]});
 
-        const eventRequest = await Event.find({eventDate: {$eq: eventDate}});
+        const eventsResult = eventRequest.map (async element =>(
+            {Title: element.eventTitle, Date: element.eventDate, DateTime: element.dateTime, User: await User.findById(element.user)}
+        ));
+        Promise.all(eventsResult)
+        .then(data =>{
+            const foundEvent = data.map(element =>(
+                {Title: element.Title, Date: element.Date, DateTime: element.DateTime, User: element.User.name}
+            ));
+            return res.status(201).json(foundEvent);
+        })
+        .catch(error =>{
+            res.status(400).json(error);
+        });
+
+
+/*         const eventRequest = await Event.find({eventDate: {$eq: date}});
 
         const eventsResult = eventRequest.map (async element =>(
             {Title: element.eventTitle, Date: element.eventDate, DateTime: element.dateTime, User: await User.findById(element.user)}
@@ -46,7 +62,7 @@ router.post('/info/:eventDate', async(req, res, next) =>{
         })
         .catch(error =>{
             res.status(400).json(error);
-        });
+        }); */
 
     }catch(error){
         return next(error);

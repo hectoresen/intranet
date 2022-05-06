@@ -16,12 +16,15 @@ const Events = ({dispatch, user, eventsError, events}) => {
   const fourthDay = new Date(new Date().getTime() + 72 * 60 * 60 * 1000);
   const fiveDay = new Date(new Date().getTime() + 96 * 60 * 60 * 1000);
   const [eventData, setEventData] = useState({eventTitle: '', eventDate: '', user: user._id});
+  const [showDayEvent, setShowDayEvent] = useState(false);
+  const [dayEvent, setDayEvent] = useState({});
 
   let day = currentDate.getDate();
   let strDay = '';
   let month = currentDate.getMonth() +1;
   let strMonth = '';
   let year = currentDate.getFullYear();
+
   useEffect(() =>{
 
     if(day.toLocaleString.length <2){
@@ -30,9 +33,10 @@ const Events = ({dispatch, user, eventsError, events}) => {
     if(month.toLocaleString.length <2){
       strMonth = `0${month}`
     }
-    dispatch(findEvent(`${year}-${strMonth}-${strDay}`))
+    dispatch(findEvent(`${year}-${strMonth}-${strDay}`, user._id))
   },[])
 
+  console.log(events);
 
 
 
@@ -63,7 +67,7 @@ const Events = ({dispatch, user, eventsError, events}) => {
 
       <div className='events__calendar'>
         <div className='events__calendar__cards'>
-          <div className={(events.length >0 || currentDate) ? 'events__calendar__cards-card-active' : 'events__calendar__cards-card'}>
+          <div className={(events.length >0) ? 'events__calendar__cards-card-active' : 'events__calendar__cards-card'}>
             <p>{mapToDate(currentDate).ddStr}</p>
             <p>{mapToDate(currentDate).dd}</p>
           </div>
@@ -124,7 +128,8 @@ const Events = ({dispatch, user, eventsError, events}) => {
         </div>
       </div>
       <div className='events__info'>
-          {
+        <div>
+                    {
             (events.length >0)
             ?
             events.map(element =>{
@@ -138,7 +143,7 @@ const Events = ({dispatch, user, eventsError, events}) => {
                       <Divider />
                       <Card.Body css={{ py: "$10" }}>
                         <Text>
-                          Hoy a las <span>{element.DateTime}</span>, creado por el usuario, <span>{element.User?.name}</span>
+                          Hoy a las <span>{element.DateTime}</span>, creado por el usuario, <span>{element.User}</span>
                         </Text>
                       </Card.Body>
                       <Divider />
@@ -149,10 +154,11 @@ const Events = ({dispatch, user, eventsError, events}) => {
             })
             :
             <div className='events__info-nevents'>
-              <h3>Eventos de hoy:</h3>
-              <p>¡Vaya! Hoy no hay ningún evento programado</p>
-            </div>
+            <h3>Eventos de hoy:</h3>
+            <p>¡Vaya! Hoy no hay ningún evento programado</p>
+          </div>
           }
+        </div>
 
       </div>
     </div>

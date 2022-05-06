@@ -40,12 +40,17 @@ export const createEvent = (form) =>{
     }
 };
 
-export const findEvent = (date) =>{
+export const findEvent = (date, userId) =>{
+    const checkEvent = {
+        date: date,
+        userId: userId
+    };
+    console.log(checkEvent);
 
     return async(dispatch) =>{
         dispatch({type: FIND_EVENT});
 
-        const findEventRequest = await fetch(`http://localhost:4500/events/info/${date}`, {
+        const findEventRequest = await fetch(`http://localhost:4500/events/info/checkEvent`, {
             method: "POST",
             headers: {
                 Accept: "application/json",
@@ -53,6 +58,7 @@ export const findEvent = (date) =>{
                 "Access-Control-Allow-Origin" : "*",
             },
             credentials: "include",
+            body: JSON.stringify(checkEvent),
         });
         const eventResult = await findEventRequest.json();
 
