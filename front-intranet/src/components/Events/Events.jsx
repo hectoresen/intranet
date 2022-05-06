@@ -36,10 +36,6 @@ const Events = ({dispatch, user, eventsError, events}) => {
     dispatch(findEvent(`${year}-${strMonth}-${strDay}`, user._id))
   },[])
 
-  console.log(events);
-
-
-
   const mapToDate = (date) =>(
     {
       dd: date.getDate(),
@@ -48,7 +44,6 @@ const Events = ({dispatch, user, eventsError, events}) => {
       yy: date.getFullYear()
     }
   )
-
 
   const inputEvents = (ev) =>{
     const {name, value} = ev.target;

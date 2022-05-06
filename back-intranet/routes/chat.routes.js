@@ -41,7 +41,8 @@ router.post('/find/:isGuest', async(req, res, next) =>{
     try{
         const {isGuest} = req.params;
 
-        const checkedChat = await ChatGroup.find({guests: {$eq: isGuest}});
+        /* const checkedChat = await ChatGroup.find({guests: {$eq: isGuest}}); */
+        const checkedChat = await ChatGroup.find({$or: [{guests:{$eq: isGuest}}, {owner: {$eq: isGuest}}]})
 
         const groupChatInfo = checkedChat.map (async element =>(
             {name: element.name, owner: await User.findById(element.owner), guests: await User.findById(element.guests), posts: element.posts}

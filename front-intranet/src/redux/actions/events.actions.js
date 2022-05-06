@@ -45,7 +45,6 @@ export const findEvent = (date, userId) =>{
         date: date,
         userId: userId
     };
-    console.log(checkEvent);
 
     return async(dispatch) =>{
         dispatch({type: FIND_EVENT});
