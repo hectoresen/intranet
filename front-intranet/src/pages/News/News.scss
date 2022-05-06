@@ -73,14 +73,11 @@
                 display: flex;
                 justify-content: center;
                 &-comments{
-                    margin-top: 10%;
+                    margin-top: 1%;
                     background-color: white;
                     border-radius: 2px;
                     box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
                 }
-            }
-            &-text{
-                margin-top: 20%;
             }
         }
     }
@@ -95,7 +92,7 @@
         justify-content: center;
         align-items: center;
         flex-direction: column;
-        margin-top: 5%;
+        margin-top: 3%;
         &-icon{
             font-size: 1.2rem;
             margin-left: 1%;

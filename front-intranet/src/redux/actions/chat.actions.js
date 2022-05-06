@@ -10,6 +10,10 @@ export const GET_CHAT_GROUP = "GET_CHAT_GROUP";
 export const GET_CHAT_GROUP_OK = "GET_CHAT_GROUP_OK";
 export const GET_CHAT_GROUP_ERROR = "GET_CHAT_GROUP_ERROR";
 
+export const CREATE_MESSAGE_CHAT = "CREATE_MESSAGE_CHAT";
+export const CREATE_MESSAGE_CHAT_OK = "CREATE_MESSAGE_CHAT_OK";
+export const CREATE_MESSAGE_CHAT_ERROR = "CREATE_MESSAGE_CHAT_ERROR";
+
 export const findAllUsers = () =>{
     return async(dispatch) =>{
         dispatch({type: FIND_ALL_USERS});
@@ -78,11 +82,35 @@ export const getChats = (isGuest) =>{
             credentials: "include",
         });
         const getGroupsResults = await getGroupsRequest.json();
-
         if(getGroupsRequest){
             dispatch({type: GET_CHAT_GROUP_OK, payload: getGroupsResults})
         }else{
             dispatch({type: GET_CHAT_GROUP_ERROR, payload: getGroupsResults.message})
+        };
+    }
+};
+
+export const createMessageChat = (chatMessageInfo) =>{
+    console.log(chatMessageInfo);
+    return async(dispatch) =>{
+        dispatch({type: CREATE_MESSAGE_CHAT});
+
+        const createMessageRequest = await fetch('http://localhost:4500/messages/create',{
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin" : "*",
+            },
+            credentials: "include",
+            body: JSON.stringify(chatMessageInfo)
+        });
+        const messagePostResults = await createMessageRequest.json();
+
+        if(messagePostResults.ok){
+            dispatch({type: CREATE_MESSAGE_CHAT_OK, payload: messagePostResults})
+        }else{
+            dispatch({type: CREATE_MESSAGE_CHAT_ERROR, payload: messagePostResults.message})
         };
     }
 };

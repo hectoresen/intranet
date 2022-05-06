@@ -7,6 +7,7 @@ export const FIND_COMMENT_OK = "FIND_COMMENT_OK";
 export const FIND_COMMENT_ERROR = "FIND_COMMENT_ERROR";
 
 export const createComment = (comment) =>{
+    console.log(comment);
     return async(dispatch) =>{
         dispatch({type: CREATE_COMMENT});
 

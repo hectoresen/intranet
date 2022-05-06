@@ -3,7 +3,9 @@ import * as actions from '../actions/chat.actions';
 const INITIAL_STATE = {
     allUsers: [],
     chatGroupCreated: false,
-    chatGroup: false
+    chatGroup: false,
+    createdMessage: [],
+    postError: false
 };
 
 export const chatReducer = (state = INITIAL_STATE, action) =>{
@@ -26,6 +28,13 @@ export const chatReducer = (state = INITIAL_STATE, action) =>{
         case (actions.GET_CHAT_GROUP_ERROR): {
             return {...state, chatGroup: false}
         }
+        case (actions.CREATE_MESSAGE_CHAT_OK) : {
+            return {...state, createdMessage: action.payload}
+        }
+        case (actions.CREATE_MESSAGE_CHAT_ERROR) : {
+            return {...state, postError: action.payload}
+        }
+
         default:
             return state;
     }

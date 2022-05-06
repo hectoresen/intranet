@@ -7,6 +7,7 @@ const newsRouter = require('./routes/news.routes');
 const commentsRouter = require('./routes/comments.routes');
 const adminRouter = require('./routes/admin.routes');
 const chatRouter = require('./routes/chat.routes');
+const chatPostsRouter = require('./routes/chatPosts.routes');
 
 const {connectToDb} = require('./config/db');
 connectToDb();
@@ -38,6 +39,7 @@ server.use('/news', newsRouter);
 server.use('/comments', commentsRouter);
 server.use('/admin', adminRouter);
 server.use('/chat', chatRouter);
+server.use('/messages', chatPostsRouter);
 
 
 server.use('*', (req, res, next) =>{

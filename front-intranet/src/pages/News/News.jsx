@@ -49,7 +49,7 @@ const News = ({dispatch, user, news, comments}) => {
 
     const handleComment = (ev) => {
         const {name, value} = ev.target;
-        setNewComment({...newComment, [name]: value, user: selectNotice.user._id, news: selectNotice.id})
+        setNewComment({...newComment, [name]: value, user: user._id, news: selectNotice.id})
     };
 
     const sendComment = (ev) =>{
@@ -85,7 +85,7 @@ const News = ({dispatch, user, news, comments}) => {
 
                     {(showNotice)
                     ?
-                    <div className='container'>
+                    <div>
                         <Card sx={{ maxWidth: 900}}>
                             <CardHeader
                                 title={selectNotice.title}
@@ -125,28 +125,27 @@ const News = ({dispatch, user, news, comments}) => {
                                     </Button>
                                 </Container>
                             </div>
-                            {(commentsList.length >0)
-                            ?
-                            commentsList.map(element =>{
-                                console.log(element);
-                                return <div className='comments'>
-                                            <div className='comments__results'>
-                                                <div className='comments__results-icon'><FaRegCommentDots/></div>
-                                                <p>{element.comment}</p>
-                                                <h6 className='comments__results-comment'>Comentario realizado por: <span>{element.User.name}</span></h6>
+                                {(commentsList.length >0)
+                                ?
+                                commentsList.map(element =>{
+                                    console.log(element);
+                                    return <div className='comments'>
+                                                <div className='comments__results'>
+                                                    <div className='comments__results-icon'><FaRegCommentDots/></div>
+                                                    <p>{element.comment}</p>
+                                                    <h6 className='comments__results-comment'>Comentario realizado por: <span>{element.User.name}</span> el día X</h6>
+                                                </div>
+                                                <div className='comments__results-dv'></div>
                                             </div>
-                                            <div className='comments__results-dv'></div>
-                                        </div>
-                            })
-                            :
-                            <div className='comments__results'>
-                                <div className='comments__results-icon'><FaCommentSlash/></div>
-                                <p>No hay comentarios recientes</p>
+                                })
+                                :
+                                <div className='comments__results'>
+                                    <div className='comments__results-icon'><FaCommentSlash/></div>
+                                    <p>No hay comentarios recientes</p>
+                                </div>
+                                }
                             </div>
-                            }
-
                         </div>
-                    </div>
                     :
                     <p>Puedes navegar en el panel de la izquierda para ver más noticias</p>
                     }
@@ -155,7 +154,8 @@ const News = ({dispatch, user, news, comments}) => {
             </div>
         </div>
     )
-}
+};
+
 const mapStateToProps = (state) =>({
     user:state.auth.user,
     news: state.news.news,

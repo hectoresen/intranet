@@ -100,10 +100,11 @@
     height: 1.5rem;
     background-color: #1E2428;
     font-weight: 600;
+    margin-right: 10px;
 }
 
 .messages__container .chat .message button {
-    opacity: 0;
+    opacity: 1;
 }
 
 .messages__container aside {
@@ -175,6 +176,64 @@
 }
 
 .messages__container aside .user .details .message h6 {
+    font-size: 0.8rem;
+    font-weight: 300;
+}
+.message-error{
+    color: red;
+}
+
+
+
+/*  */
+
+
+
+.messages__container aside .user-active {
+    color: #fff;
+    display: flex;
+    flex-direction: row;
+    padding: 15px;
+    cursor: pointer;
+    margin-top: 1rem;
+    -webkit-box-shadow: 0px 0px 5px 0px #5276A6;
+    -moz-box-shadow: 0px 0px 5px 0px #5276A6;
+    box-shadow: 0px 0px 5px 0px #5276A6;
+}
+
+.messages__container aside .user-active:hover {
+    background-color: #0F1A20;
+    transition: 0.2s ease-in-out;
+}
+
+.messages__container aside .user-active .avatar img {
+    border-radius: 50%;
+    height: 60px;
+    width: 60px;
+    margin-right: 40px;
+    -o-object-fit: cover;
+    object-fit: cover;
+}
+
+.messages__container aside .user-active .details {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: -15px;
+    align-items: baseline;
+}
+
+.messages__container aside .user-active .details .green {
+    color: #25D366;
+    font-size: 0.9rem;
+}
+
+.messages__container aside .user-active .details .name h3 {
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.messages__container aside .user-active .details .message h6 {
     font-size: 0.8rem;
     font-weight: 300;
 }
