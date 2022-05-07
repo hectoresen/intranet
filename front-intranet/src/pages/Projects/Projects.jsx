@@ -24,7 +24,6 @@ const Projects = ({dispatch, allProjects, user, comments}) => {
     setCommentsList(comments);
   },[comments])
 
-
   const getProjectComments = (project) =>{
     /* Consultar con la ID de proyecto si hay un comentario en la colección comments */
     setSelectedProject(project);
@@ -42,6 +41,17 @@ const Projects = ({dispatch, allProjects, user, comments}) => {
     setNewComment({...newComment, [name]: value, user: user._id, project: selectedProject});
   }
 
+  const getDateAndDateTime = (arg) =>{
+    let time = arg.createdAt.toLocaleString();
+    time.substring(1,3)
+    let space = time.indexOf('T');
+    let finalDate = time.substring(0, space);
+    let finalDateTime = time.substring(space +1, 16);
+
+
+    return <p className='dateProject'>{`${finalDate} a las ${finalDateTime}`}</p>
+  }
+
   return (
     <div className='projects'>
       <div className='projects__navbar'>
@@ -53,6 +63,7 @@ const Projects = ({dispatch, allProjects, user, comments}) => {
             return <div onClick={() =>{getProjectComments(element._id)}} key={element.title}><Accordion className='projects__container__project' activeIndex={1} key={element._id}>
             <AccordionTab header={element.title}>
               <p>{element.description}</p>
+              <p>{getDateAndDateTime(element)}</p>
               <div className='projects__container-comments-input'>
                   <Container maxWidth="xs">
                       <TextField
