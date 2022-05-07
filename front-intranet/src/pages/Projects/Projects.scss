@@ -8,21 +8,26 @@
         justify-content: start;
     }
     &__container{
-        width: 85%;
-        &-header{
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            flex-direction: column;
-            &-text{
-                margin-top: 1%;
-                padding: 30px;
-                text-transform: uppercase;
-                background-color: #CAF1F8;
-                box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-            }
+        width: 88%;
+        background-color: #EEF5FF;
+        &__project{
+            margin-top: 5%;
+        }
+        &-comments{
+            
+        }
+        &-comments-input{
+            margin-top: 3%;
+            border-top: 1px solid black;
         }
     }
+}
+.create_project{
+    height: 92vh;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
 }
 
 .isAdm{

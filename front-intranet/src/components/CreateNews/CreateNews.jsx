@@ -3,8 +3,6 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import { Card, Grid, Text, Divider, Row } from "@nextui-org/react";
-import { createEvent, findEvent } from '../../redux/actions/events.actions';
 import {connect} from 'react-redux';
 import { createNews } from '../../redux/actions/news.actions';
 import './CreateNews.scss';

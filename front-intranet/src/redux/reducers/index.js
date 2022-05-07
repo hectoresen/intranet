@@ -5,6 +5,7 @@ import { chatReducer } from './chat.reducer';
 import { commentsReducer } from './comments.reducer';
 import { eventsReducer } from './events.reducer';
 import { newsReducer } from './news.reducer';
+import { projectsReducer } from './project.reducer';
 
 export const rootReducer = combineReducers(
     {
@@ -13,7 +14,8 @@ export const rootReducer = combineReducers(
         news: newsReducer,
         comments: commentsReducer,
         admin: adminReducer,
-        chat: chatReducer
+        chat: chatReducer,
+        projects: projectsReducer
     }
 );
 

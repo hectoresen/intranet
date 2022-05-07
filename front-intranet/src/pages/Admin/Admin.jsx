@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { CreateNews } from '../../components';
+import { CreateNews, CreateProjects } from '../../components';
 import { useNavigate } from 'react-router-dom';
 import {connect} from 'react-redux';
 import { deleteUser, editPass, findUsers } from '../../redux/actions/admin.actions';
@@ -96,7 +96,7 @@ const Admin = ({dispatch, adminUsers}) => {
 
                 {(showPanel.projects)
                 ?
-                <p>Creación de proyecto</p>
+                <CreateProjects/>
                 :
                 ''}
 

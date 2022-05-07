@@ -4,6 +4,7 @@ import Navbar from './Navbar/Navbar';
 import PrivateRouteAdmin from './PrivateRouteAdmin/PrivateRouteAdmin';
 import CreateNews from './CreateNews/CreateNews';
 import Messages from './Messages/Messages';
+import CreateProjects from './CreateProjects/CreateProjects';
 
 export {
     PrivateRoute,
@@ -11,5 +12,6 @@ export {
     Navbar,
     PrivateRouteAdmin,
     CreateNews,
-    Messages
+    Messages,
+    CreateProjects
 }

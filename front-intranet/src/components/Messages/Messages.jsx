@@ -28,8 +28,8 @@ const Messages = ({dispatch, chatGroups, activeUser, postError, chatMessages}) =
 
     const submitMessage = (ev) =>{
         ev.preventDefault();
-        setChatMessage({message: '', messageOwner: activeUser._id, chatGroup: chatSelected.id})
         dispatch(createMessageChat(chatMessage))
+        setChatMessage({message: '', messageOwner: activeUser._id, chatGroup: chatSelected.id})
     }
 
     return (<div id="container-all">
@@ -56,13 +56,13 @@ const Messages = ({dispatch, chatGroups, activeUser, postError, chatMessages}) =
 
 		</ul>
 	</aside>
-	<main>
+	<main className='main'>
 		<ul id="chat">
             {(chatMessages.length >0)
             ?
             chatMessages.map(element =>{
                 return 	<li className="you">
-				<div className="entete">
+				<div className="entete" key={element.date}>
 					<span className="status green"></span>
 					<h2>{element.owner}</h2>
 					<h3>10:12AM, Today</h3>

@@ -28,12 +28,12 @@ const News = ({dispatch, user, news, comments}) => {
 
     useEffect(() =>{
         setCommentsList(comments);
-        if(comments.length >0){
+/*         if(comments.length >0){
             setCommentsList(comments);
             console.log('Hay comentarios');
         }else{
             console.log('No hay comentarios');
-        }
+        } */
     },[comments])
 
     const getDateNew = (date) =>{

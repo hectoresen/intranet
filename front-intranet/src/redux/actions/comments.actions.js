@@ -32,6 +32,7 @@ export const createComment = (comment) =>{
 };
 
 export const findComment = (id) =>{
+    console.log('ID EN REDUX',id);
     return async(dispatch) =>{
         dispatch({type: FIND_COMMENT});
 
