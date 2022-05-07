@@ -14,6 +14,11 @@ export const CREATE_MESSAGE_CHAT = "CREATE_MESSAGE_CHAT";
 export const CREATE_MESSAGE_CHAT_OK = "CREATE_MESSAGE_CHAT_OK";
 export const CREATE_MESSAGE_CHAT_ERROR = "CREATE_MESSAGE_CHAT_ERROR";
 
+export const GET_MESSAGE_CHAT = "GET_MESSAGE_CHAT";
+export const GET_MESSAGE_CHAT_OK = "GET_MESSAGE_CHAT_OK";
+export const GET_MESSAGE_CHAT_ERROR = "GET_MESSAGE_CHAT_ERROR";
+
+
 export const findAllUsers = () =>{
     return async(dispatch) =>{
         dispatch({type: FIND_ALL_USERS});
@@ -114,3 +119,26 @@ export const createMessageChat = (chatMessageInfo) =>{
         };
     }
 };
+
+
+export const getChatMessages = (groupId) =>{
+    return async(dispatch) =>{
+        dispatch({type: GET_MESSAGE_CHAT });
+
+        const getMessagesRequest = await fetch(`http://localhost:4500/messages/chat/${groupId}`,{
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin" : "*",
+            },
+            credentials: "include",
+        });
+        const getMessagesResults = await getMessagesRequest.json();
+
+        if(getMessagesResults){
+            console.log(getMessagesResults);
+            dispatch({type: GET_MESSAGE_CHAT_OK, payload: getMessagesResults})
+        }
+    }
+}

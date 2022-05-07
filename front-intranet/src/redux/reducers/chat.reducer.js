@@ -5,7 +5,8 @@ const INITIAL_STATE = {
     chatGroupCreated: false,
     chatGroup: false,
     createdMessage: [],
-    postError: false
+    postError: false,
+    chatMessages: []
 };
 
 export const chatReducer = (state = INITIAL_STATE, action) =>{
@@ -33,6 +34,10 @@ export const chatReducer = (state = INITIAL_STATE, action) =>{
         }
         case (actions.CREATE_MESSAGE_CHAT_ERROR) : {
             return {...state, postError: action.payload}
+        }
+        case (actions.GET_MESSAGE_CHAT_OK) : {
+            console.log(action.payload);
+            return {...state, chatMessages: action.payload}
         }
 
         default:

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import {connect} from 'react-redux';
 import Button from '@mui/material/Button';
-import { createMessageChat, getChats } from '../../redux/actions/chat.actions';
+import { createMessageChat, getChats, getChatMessages } from '../../redux/actions/chat.actions';
 import './Messages.scss';
 
-const Messages = ({dispatch, chatGroups, activeUser, postError}) => {
+const Messages = ({dispatch, chatGroups, activeUser, postError, chatMessages}) => {
 
     const [chatMessage, setChatMessage] = useState({message: '', messageOwner: activeUser._id, chatGroup: ''});
     const [chatSelected, setChatSelected] = useState({});
@@ -13,12 +13,17 @@ const Messages = ({dispatch, chatGroups, activeUser, postError}) => {
         dispatch(getChats(activeUser._id))
     }, []);
 
-    const selectGroup = (group) =>{setChatSelected(group)}
+    const selectGroup = (group) =>{
+        dispatch(getChatMessages(group.id))
+        setChatSelected(group)
+    }
+
+    console.log(chatMessages);
 
     const handleMessage = (ev) =>{
         const {name, value} = ev.target;
         setChatMessage({...chatMessage, [name]: value})
-        console.log(chatSelected);
+        console.log(chatMessage);
     };
 
     const submitMessage = (ev) =>{
@@ -27,11 +32,71 @@ const Messages = ({dispatch, chatGroups, activeUser, postError}) => {
         dispatch(createMessageChat(chatMessage))
     }
 
-    return <section className="messages">
+    return (<div id="container-all">
+	<aside>
+		<ul>
+            {
+                (chatGroups)
+                ?
+                chatGroups.map(element =>{
+                    return <li className={(element.id === chatSelected.id) ? 'selected-chat' : 'chats'} onClick={() =>{selectGroup(element)}} key={element.id}>
+                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/chat_avatar_01.jpg" alt="" />
+                    <div>
+                        <h2>{element.name}</h2>
+                        <h3>
+                            <span className="status orange"></span>
+                            Invitados: {element.guests}
+                        </h3>
+                    </div>
+                </li>
+                })
+                :
+                ''
+            }
+
+		</ul>
+	</aside>
+	<main>
+		<ul id="chat">
+            {(chatMessages.length >0)
+            ?
+            chatMessages.map(element =>{
+                return 	<li className="you">
+				<div className="entete">
+					<span className="status green"></span>
+					<h2>{element.owner}</h2>
+					<h3>10:12AM, Today</h3>
+				</div>
+				<div className="message">
+					{element.message}
+				</div>
+			</li>
+            })
+            :
+            <p>No hay mensajes que mostrar</p>}
+
+		</ul>
+		<footer>
+			<textarea placeholder="Escribe tu mensaje"
+                name="message"
+                id="message"
+                value={chatMessage.message}
+                onChange={handleMessage}
+                >
+            </textarea>
+            <Button type="submit"
+                    variant='contained'
+                    onClick={submitMessage}
+                    sx={{mt:0, mb: 1}}>Enviar
+            </Button>
+		</footer>
+	</main>
+    </div>
+)
+/*     <section className="messages">
             <div className="messages__container">
                 <aside>
                     <button>
-                        {/* DIV A RECORRER */}
                         {
                             (chatGroups)
                             ?
@@ -59,13 +124,9 @@ const Messages = ({dispatch, chatGroups, activeUser, postError}) => {
                 </button>
                 </aside>
 
-                {/* CHAT */}
+
                 <div className="chat">
-                    {/* BG */}
-                    <img src="./assets/background.jpg" alt="background"></img>
-                    <ul>
-                    </ul>
-                    {/* NAV */}
+
                     <header>
                         <nav>
                             <ul>
@@ -77,7 +138,7 @@ const Messages = ({dispatch, chatGroups, activeUser, postError}) => {
                             </ul>
                         </nav>
                     </header>
-                    {/* ENTER MESSAGE */}
+
                     <div className="message">
                         <form id="chat-form">
                             <input
@@ -96,11 +157,12 @@ const Messages = ({dispatch, chatGroups, activeUser, postError}) => {
                     </div>
                 </div>
             </div>
-        </section>
+        </section> */
 };
 const mapStateToProps = (state) => ({
     chatGroups: state.chat.chatGroup,
     activeUser: state.auth.user,
-    postError: state.chat.postError
+    postError: state.chat.postError,
+    chatMessages: state.chat.chatMessages
 })
 export default connect(mapStateToProps)(Messages);
