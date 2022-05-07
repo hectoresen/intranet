@@ -5,30 +5,32 @@ const ChatGroup = require('../models/chatGroup');
 const ChatPosts = require('../models/chatPosts');
 
 
-router.get('/all', async(req, res, next) =>{
+router.post('/chat/:groupId', async(req, res, next) =>{
     /* Obtener ID de chatGroup y buscarlo en la colección chatPosts */
     try{
+        const {groupId} = req.params;
+        const chatRequest = await ChatPosts.find({chatGroup: {$eq: groupId}});
+        const chatResults = chatRequest.map(async element =>({
+            message: element.message, owner: await User.findById(element.messageOwner), date: element.createdAt
+        }));
+        Promise.all(chatResults)
+        .then(data =>{
+            const foundChat = data.map(element =>({
+                message: element.message, owner: element.owner.name, date: element.date
+            }));
+            console.log('CHAT ENCONTRADO ->', foundChat);
+            return res.status(201).json(foundChat);
+        })
+        .catch(error =>{;
+            res.status(400).json(error);
+        });
 
     }catch(error){
-
+        return next(error);
     }
 });
 
 router.post('/create', async(req, res, next) =>{
-
-    /* Obtener ID (groupId) de chatGroup en el que se está escribiendo y hacer POST a la colección chatPosts
-       Obtener mensaje del chatGroup (message) que se ha escrito y hacer POST a la colección chatPosts
-       Obtener ID del que ha escrito el mensaje (ownerId) y hacer post a chatPosts
-
-       const newMessage = new ChatPosts(
-           {
-               message: message,
-               messageOwner: ownerId,
-               chatGroup: groupId
-           }
-       )
-    
-    */
 
     try{
         const {message, messageOwner, chatGroup} = req.body;
@@ -45,6 +47,9 @@ router.post('/create', async(req, res, next) =>{
                 chatGroup: chatGroup
             }
         );
+        console.log(newMessageInfo);
+
+        await ChatGroup.updateOne({_id: chatGroup}, {$push: {posts: newMessageInfo._id}});
 
         const newMessage = await newMessageInfo.save();
         return res.status(201).json(newMessage);
