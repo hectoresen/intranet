@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { CreateNews, CreateProjects } from '../../components';
+import { CreateNews, CreateProjects, ManageNews } from '../../components';
 import { useNavigate } from 'react-router-dom';
 import {connect} from 'react-redux';
 import { deleteUser, editPass, findUsers } from '../../redux/actions/admin.actions';
@@ -9,6 +9,7 @@ import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
+import { TabView, TabPanel } from 'primereact/tabview';
 import './Admin.scss';
 
 const Admin = ({dispatch, adminUsers}) => {
@@ -17,6 +18,7 @@ const Admin = ({dispatch, adminUsers}) => {
     const [showEditModal, setShowEditModal] = useState(false);
     const [selectedUser, setSelectedUser] = useState({});
     const [newPass, setNewPass] = useState('');
+    const [activeIndex, setActiveIndex] = useState(0);
 
     useEffect(() =>{
         dispatch(findUsers());
@@ -28,8 +30,9 @@ const Admin = ({dispatch, adminUsers}) => {
 
     const [showPanel, setShowPanel] = useState({
         news: false,
+        manageNews: false,
         projects: false,
-        users: false
+        users: false,
     });
 
     const displayItems = (item) =>{
@@ -67,17 +70,18 @@ const Admin = ({dispatch, adminUsers}) => {
     const getUserDate = (user) => user.createdAt.toLocaleString().substring(0,10);
 
     const editPassBtn = (user) => {
-        return <div className='icons'>
-                <Button icon="pi pi-pencil" className='p-button-success' iconPos='right' onClick={() =>{editUserModal(user)}}></Button>
-                <Button icon="pi pi-trash" className='p-button-warning' iconPos='left' onClick={() =>{deleteUserSelected(user)}}></Button>
-            </div>
-    }
+        return  <div className='icons'>
+                    <Button icon="pi pi-pencil" className='p-button-success' iconPos='right' onClick={() =>{editUserModal(user)}}></Button>
+                    <Button icon="pi pi-trash" className='p-button-warning' iconPos='left' onClick={() =>{deleteUserSelected(user)}}></Button>
+                </div>
+    };
+
 
     return (
         <div className='adminpanel'>
             <div className='adminpanel__menu'>
                 <div className='adminpanel__menu-item-home' onClick={() =>{displayItems('home')}}>Inicio</div>
-                <div className='adminpanel__menu-item-news' onClick={() =>{displayItems('news')}}>Crear noticia</div>
+                <div className='adminpanel__menu-item-news' onClick={() =>{displayItems('news')}}>Gestionar boletines</div>
                 <div className='adminpanel__menu-item-projects' onClick={() =>{displayItems('projects')}}>Crear proyecto</div>
                 <div className='adminpanel__menu-item-users' onClick={() =>{displayItems('users')}}>Gestionar usuarios</div>
             </div>
@@ -87,7 +91,16 @@ const Admin = ({dispatch, adminUsers}) => {
 
                 {(showPanel.news)
                 ?
-                <CreateNews/>
+                <div className='manage-news'>
+                    <TabView activeIndex={activeIndex} onTabChange={(e) =>setActiveIndex(e.index)}>
+                        <TabPanel header="Crear noticia" leftIcon='pi pi-cloud-upload'>
+                            <CreateNews/>
+                        </TabPanel>
+                        <TabPanel header="Gestionar noticias" leftIcon='pi pi-cog'>
+                            <ManageNews/>
+                        </TabPanel>
+                    </TabView>
+                </div>
                 :
                 ''
                 }

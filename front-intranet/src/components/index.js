@@ -5,6 +5,7 @@ import PrivateRouteAdmin from './PrivateRouteAdmin/PrivateRouteAdmin';
 import CreateNews from './CreateNews/CreateNews';
 import Messages from './Messages/Messages';
 import CreateProjects from './CreateProjects/CreateProjects';
+import ManageNews from './ManageNews/ManageNews';
 
 export {
     PrivateRoute,
@@ -13,5 +14,6 @@ export {
     PrivateRouteAdmin,
     CreateNews,
     Messages,
-    CreateProjects
+    CreateProjects,
+    ManageNews
 }

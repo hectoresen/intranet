@@ -97,7 +97,7 @@ const News = ({dispatch, user, news, comments}) => {
                                 </Typography>
                             </CardContent>
                             <Typography variant="body2" color="text.secondary">
-                                    Noticia creada por {selectNotice?.user.name}
+                                    Noticia creada por {selectNotice?.user?.name || 'Usuario eliminado'}
                             </Typography>
                         </Card>
                         <div className='news__container__news-new-comments'>
@@ -133,7 +133,7 @@ const News = ({dispatch, user, news, comments}) => {
                                                 <div className='comments__results'>
                                                     <div className='comments__results-icon'><FaRegCommentDots/></div>
                                                     <p>{element.comment}</p>
-                                                    <h6 className='comments__results-comment'>Comentario realizado por: <span>{element.User.name}</span> el día X</h6>
+                                                    <h6 className='comments__results-comment'>Comentario realizado por: <span>{element?.User?.name | 'Usuario eliminado'}</span> el día X</h6>
                                                 </div>
                                                 <div className='comments__results-dv'></div>
                                             </div>

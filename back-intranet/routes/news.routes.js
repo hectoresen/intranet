@@ -47,6 +47,30 @@ router.get('/news', async(req, res, next) =>{
     }catch(error){
         return next(error);
     }
+});
+
+
+router.put('/edit', async(req, res, next) =>{
+    
+    try{
+        const {newInfo, newId} = req.body;
+        const {title, description, dateNew} = newInfo;
+
+        if(!title || !description || !dateNew){
+            return res.status(500).json({message: 'Debes cubrir todos los campos para modificar la noticia'});
+        }
+
+        let dateString = dateNew.toLocaleString();
+        let space = dateString.indexOf('T');
+        let finalDate = dateString.substring(0, space);
+
+        const updatedNew = await News.findByIdAndUpdate(newId, {title: title, description: description, dateNew: finalDate});
+
+        return res.status(201).json(updatedNew);
+
+    }catch(error){
+        return next(error);
+    }
 })
 
 module.exports = router;

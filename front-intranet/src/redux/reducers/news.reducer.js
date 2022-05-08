@@ -4,6 +4,7 @@ const newsResults = {
     news: [],
     findEventsError: null,
     createdNews: null,
+    updatedNews: null
 };
 
 export const newsReducer = (state = newsResults, action) =>{
@@ -19,6 +20,12 @@ export const newsReducer = (state = newsResults, action) =>{
         }
         case(actions.FIND_NEWS_ERROR) : {
             return {...state, findEventsError: true};
+        }
+        case(actions.EDIT_NEWS_OK) : {
+            return {...state, updatedNews: true }
+        }
+        case(actions.EDIT_NEWS_ERROR) : {
+            return {...state, updatedNews: action.payload}
         }
         default:
             return state;
