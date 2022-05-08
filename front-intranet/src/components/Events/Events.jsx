@@ -131,7 +131,7 @@ const Events = ({dispatch, user, eventsError, events}) => {
               return <div className='events__info-events' key={element.DateTime}>
                 <Grid.Container gap={2}>
                   <Grid sm={12} md={5}>
-                    <Card css={{ mw: "330px" }}>
+                    <Card css={{ mw: "800px" }}>
                       <Card.Header>
                         <Text b>{element.Title}</Text>
                       </Card.Header>

@@ -9,7 +9,9 @@ router.post('/chat/:groupId', async(req, res, next) =>{
     /* Obtener ID de chatGroup y buscarlo en la colección chatPosts */
     try{
         const {groupId} = req.params;
+        console.log(groupId);
         const chatRequest = await ChatPosts.find({chatGroup: {$eq: groupId}});
+        console.log('REQUEST->',chatRequest);
         const chatResults = chatRequest.map(async element =>({
             message: element.message, owner: await User.findById(element.messageOwner), date: element.createdAt
         }));

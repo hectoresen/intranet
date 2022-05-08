@@ -8,6 +8,7 @@ const Messages = ({dispatch, chatGroups, activeUser, postError, chatMessages}) =
 
     const [chatMessage, setChatMessage] = useState({message: '', messageOwner: activeUser._id, chatGroup: ''});
     const [chatSelected, setChatSelected] = useState({});
+    const [chatsGroups, setChatGroups] = useState([]);
 
     useEffect(() =>{
         dispatch(getChats(activeUser._id))
@@ -15,6 +16,7 @@ const Messages = ({dispatch, chatGroups, activeUser, postError, chatMessages}) =
 
     const selectGroup = (group) =>{
         dispatch(getChatMessages(group.id))
+        console.log('ID DE GRUPO ->', group);
         setChatSelected(group)
     }
 
@@ -36,7 +38,7 @@ const Messages = ({dispatch, chatGroups, activeUser, postError, chatMessages}) =
 	<aside>
 		<ul>
             {
-                (chatGroups)
+                (chatGroups.length >0)
                 ?
                 chatGroups.map(element =>{
                     return <li className={(element.id === chatSelected.id) ? 'selected-chat' : 'chats'} onClick={() =>{selectGroup(element)}} key={element.id}>
@@ -61,8 +63,8 @@ const Messages = ({dispatch, chatGroups, activeUser, postError, chatMessages}) =
             {(chatMessages.length >0)
             ?
             chatMessages.map(element =>{
-                return 	<li className="you">
-				<div className="entete" key={element.date}>
+                return 	<li className="you" key={element.date}>
+				<div className="entete" >
 					<span className="status green"></span>
 					<h2>{element.owner}</h2>
 					<h3>10:12AM, Today</h3>

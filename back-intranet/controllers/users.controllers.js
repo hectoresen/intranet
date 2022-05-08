@@ -3,8 +3,7 @@ const User = require('../models/users');
 
 module.exports = {
     registerPost: async (req, res, next) => {
-        const { password, name } = req.body;
-
+        const { password, name, role } = req.body;
 
         if (!password || !name) {
             return res.status(400).json({ message: 'Debes completar todos los campos' })

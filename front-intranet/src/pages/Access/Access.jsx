@@ -16,7 +16,6 @@ import './Access.scss';
 
 const Access = ({dispatch, user, error}) => {
 
-  const [needToRegister, setNeedToRegister] = useState(false);
   const [formData, setFormData] = useState({name:'', password: ''});
   const navigate = useNavigate();
 
@@ -32,19 +31,10 @@ const Access = ({dispatch, user, error}) => {
     navigate('/home');
   }
 
-  const registerSubmit = (ev) =>{
-    ev.preventDefault();
-    dispatch(registerUser(formData));
-    setFormData({name: '', password: ''});
-    setNeedToRegister(!needToRegister);
-    navigate('/home');
-  };
-
   return (
     <div className='access'>
+      <img className='accimg' src="https://media.discordapp.net/attachments/964479986855706624/972916767867416606/Blue_Gradient_Programmer_LinkedIn_Banner.png?width=782&height=235"></img>
       {(error) ? <p className='access__error'>Credenciales incorrectas</p> : ''}
-      {(!needToRegister)
-      ?
       <Container  className="access__form" component="main" maxWidth="xs">
           <CssBaseline />
           <Box
@@ -56,7 +46,7 @@ const Access = ({dispatch, user, error}) => {
             }}
           >
             <Typography component="h1" variant="h5">
-              Inicio de sesión
+              Iniciar sesión
             </Typography>
             <Box component="form" onSubmit={loginSubmit} noValidate sx={{ mt: 1 }}>
               <TextField
@@ -92,68 +82,13 @@ const Access = ({dispatch, user, error}) => {
               <Grid container>
                 <Grid item xs>
                   <Link href="#" variant="body2">
-                    <h5 onClick={() =>{
-                      setNeedToRegister(!needToRegister)
-                      setFormData({name: '', password: ''});
-                      }}
-                      >Necesito registrarme
-                    </h5>
+                      Un administrador le dará acceso a nuestra plataforma
                   </Link>
                 </Grid>
               </Grid>
             </Box>
           </Box>
         </Container>
-      :
-      <Container className="access__form" component="main" maxWidth="xs">
-          <CssBaseline />
-          <Box
-            sx={{
-              marginTop: 8,
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-            }}
-          >
-            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            </Avatar>
-            <Typography component="h1" variant="h5">
-              Formulario de registro
-            </Typography>
-            <Box component="form" onSubmit={registerSubmit} noValidate sx={{ mt: 1 }}>
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="name"
-                label="Nombre de usuario"
-                name="name"
-                type='text'
-                autoFocus
-                onChange={handleInput}
-              />
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Contraseña"
-                type="password"
-                id="password"
-                onChange={handleInput}
-              />
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-              >
-                Registrarme
-              </Button>
-            </Box>
-          </Box>
-        </Container>
-      }
     </div>
   )
 }

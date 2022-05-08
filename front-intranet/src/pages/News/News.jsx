@@ -64,6 +64,8 @@ const News = ({dispatch, user, news, comments}) => {
             let finalDate = dateString.substring(0, space);
             let finalDateTime = dateString.substring(space +1, 16);
             return <p className='time-comment'>{`${finalDate} a las ${finalDateTime}`}</p>
+        }else{
+            return <p className='time-comment'>Hora y fecha inaccesible, comentario eliminado</p>
         }
     }
 
@@ -138,7 +140,7 @@ const News = ({dispatch, user, news, comments}) => {
                                 {(commentsList.length >0)
                                 ?
                                 commentsList.map(element =>{
-                                    return <div className='comments'>
+                                    return <div className='comments' key={element.id}>
                                                 <div className='comments__results'>
                                                     <div className='comments__results-icon'><FaRegCommentDots/></div>
                                                     <p>{element.comment || 'Comentario eliminado'}</p>

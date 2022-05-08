@@ -51,7 +51,10 @@
     }
     &__add{
         width: 30%;
-        border: 3px solid #F2F3F5;
+        box-shadow: 10px 10px 10px 5px #ccc;
+        -moz-box-shadow:10px 10px 10px 5px #ccc;
+        -webkit-box-shadow: 10px 10px 10px 5px #ccc;
+        -khtml-box-shadow: 10 px 10px 10px 5px #ccc;
         &-form{
         }
     }

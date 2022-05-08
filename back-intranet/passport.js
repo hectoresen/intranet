@@ -27,6 +27,7 @@ passport.use(
             passReqToCallback: true,
         },
         async (req, name, password, done) => {
+            const {role} = req.body;
             try {
                 if (name.length < 4) {
                     const error = new Error("El nombre de usuario debe contener almenos 4 carácteres");
@@ -45,8 +46,9 @@ passport.use(
                 const hash = await bcrypt.hash(password, saltRound);
 
                 const newUser = new User({
-                    name: req.body.name,
+                    name: req.body.name.toLowerCase(),
                     password: hash,
+                    role: role
                 });
 
                 const savedUser = await newUser.save();

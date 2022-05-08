@@ -39,7 +39,7 @@ const Projects = ({dispatch, allProjects, user, comments}) => {
   const handleComment = (ev) =>{
     const {name, value} = ev.target;
     setNewComment({...newComment, [name]: value, user: user._id, project: selectedProject});
-  }
+  };
 
   const getDateAndDateTime = (arg) =>{
     let time = arg.createdAt.toLocaleString();
@@ -47,10 +47,21 @@ const Projects = ({dispatch, allProjects, user, comments}) => {
     let space = time.indexOf('T');
     let finalDate = time.substring(0, space);
     let finalDateTime = time.substring(space +1, 16);
-
-
     return <p className='dateProject'>{`${finalDate} a las ${finalDateTime}`}</p>
-  }
+  };
+
+  const getCommentDate = (comment) =>{
+    if(comment){
+        let dateString = comment.dateComment.toLocaleString();
+        let space = dateString.indexOf('T');
+        let finalDate = dateString.substring(0, space);
+        let finalDateTime = dateString.substring(space +1, 16);
+        return <p className='time-comment'>{`${finalDate} a las ${finalDateTime}`}</p>
+    }else{
+        return <p className='time-comment'>Hora y fecha inaccesible, comentario eliminado</p>
+    }
+}
+
 
   return (
     <div className='projects'>
@@ -92,11 +103,12 @@ const Projects = ({dispatch, allProjects, user, comments}) => {
                   {(commentsList.length >0)
                   ?
                   commentsList.map(element =>{
-                    return <div className='comments'>
+                    console.log(element);
+                    return <div className='comments' key={element.id}>
                     <div className='comments__results'>
                         <div className='comments__results-icon'><FaRegCommentDots/></div>
                         <p>{element.comment}</p>
-                        <h6 className='comments__results-comment'>Comentario realizado por: <span>{element.User.name}</span> el día X</h6>
+                        <h6 className='comments__results-comment'>Comentario realizado por: <span>{element.User.name || 'Usuario eliminado'}</span>{getCommentDate(element)}</h6>
                     </div>
                     <div className='comments__results-dv'></div>
                 </div>
