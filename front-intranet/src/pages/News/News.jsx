@@ -55,6 +55,16 @@ const News = ({dispatch, user, news, comments}) => {
     const sendComment = (ev) =>{
         ev.preventDefault();
         dispatch(createComment(newComment));
+    };
+
+    const getCommentDate = (comment) =>{
+        if(comment){
+            let dateString = comment.dateComment.toLocaleString();
+            let space = dateString.indexOf('T');
+            let finalDate = dateString.substring(0, space);
+            let finalDateTime = dateString.substring(space +1, 16);
+            return <p className='time-comment'>{`${finalDate} a las ${finalDateTime}`}</p>
+        }
     }
 
 
@@ -128,12 +138,11 @@ const News = ({dispatch, user, news, comments}) => {
                                 {(commentsList.length >0)
                                 ?
                                 commentsList.map(element =>{
-                                    console.log(element);
                                     return <div className='comments'>
                                                 <div className='comments__results'>
                                                     <div className='comments__results-icon'><FaRegCommentDots/></div>
-                                                    <p>{element.comment}</p>
-                                                    <h6 className='comments__results-comment'>Comentario realizado por: <span>{element?.User?.name | 'Usuario eliminado'}</span> el día X</h6>
+                                                    <p>{element.comment || 'Comentario eliminado'}</p>
+                                                    <h6 className='comments__results-comment'>Comentario realizado por: <span>{element.User.name || 'Usuario eliminado'}</span>{getCommentDate(element)}</h6>
                                                 </div>
                                                 <div className='comments__results-dv'></div>
                                             </div>

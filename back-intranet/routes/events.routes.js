@@ -50,20 +50,6 @@ router.post('/info/checkEvent', async(req, res, next) =>{
             res.status(400).json(error);
         });
 
-
-/*         const eventRequest = await Event.find({eventDate: {$eq: date}});
-
-        const eventsResult = eventRequest.map (async element =>(
-            {Title: element.eventTitle, Date: element.eventDate, DateTime: element.dateTime, User: await User.findById(element.user)}
-        ));
-        Promise.all(eventsResult)
-        .then(data =>{
-            return res.status(201).json(data);
-        })
-        .catch(error =>{
-            res.status(400).json(error);
-        }); */
-
     }catch(error){
         return next(error);
     }
