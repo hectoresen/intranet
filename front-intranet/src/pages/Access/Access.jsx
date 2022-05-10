@@ -14,7 +14,7 @@ import { useNavigate } from 'react-router-dom';
 import { loginUser, registerUser } from '../../redux/actions/auth.actions';
 import './Access.scss';
 
-const Access = ({dispatch, user, error}) => {
+const Access = ({dispatch, user, error, ...props}) => {
 
   const [formData, setFormData] = useState({name:'', password: ''});
   const navigate = useNavigate();
@@ -35,6 +35,7 @@ const Access = ({dispatch, user, error}) => {
     <div className='access'>
       <img className='accimg' src="https://media.discordapp.net/attachments/964479986855706624/972916767867416606/Blue_Gradient_Programmer_LinkedIn_Banner.png?width=782&height=235"></img>
       {(error) ? <p className='access__error'>Credenciales incorrectas</p> : ''}
+      {(props.Denied) ? <p className='access__error'>Debes iniciar sesión para acceder</p> : ''}
       <Container  className="access__form" component="main" maxWidth="xs">
           <CssBaseline />
           <Box

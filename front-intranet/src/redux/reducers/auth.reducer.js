@@ -1,7 +1,7 @@
 import * as actions from '../actions/auth.actions';
 
 const INITIAL_STATE = {
-    user: false,
+    user: null,
     error: '',
 }
 

@@ -1,9 +1,10 @@
 import { Access, Admin, Chat, Home, News, Projects } from './pages';
 import { Routes, Route } from "react-router-dom";
-import { PrivateRoute, PrivateRouteAdmin } from './components';
+import { Navbar, PrivateRoute, PrivateRouteAdmin } from './components';
+import {connect} from 'react-redux';
 import './App.scss';
 
-function App() {
+function App({user}) {
   return (
     <div className="App">
       <Routes>
@@ -16,6 +17,10 @@ function App() {
       </Routes>
       </div>
   );
-}
+};
 
-export default App;
+const mapStateToProps = (state) =>({
+  user: state.auth.user
+})
+
+export default connect(mapStateToProps)(App);

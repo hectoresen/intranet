@@ -3,11 +3,13 @@ const router = express.Router();
 const User = require('../models/users');
 const bcrypt = require("bcrypt");
 
-router.get('/users',async (req, res, next) =>{
+router.get('/users', async (req, res, next) =>{
+
     try{
         const usersRequest = await User.find();
         return res.status(201).json(usersRequest);
     }catch(error){
+        console.log(2);
         return next(error);
     }
 });

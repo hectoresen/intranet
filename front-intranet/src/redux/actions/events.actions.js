@@ -45,6 +45,7 @@ export const findEvent = (date, userId) =>{
         date: date,
         userId: userId
     };
+    console.log(checkEvent);
 
     return async(dispatch) =>{
         dispatch({type: FIND_EVENT});
@@ -62,6 +63,7 @@ export const findEvent = (date, userId) =>{
         const eventResult = await findEventRequest.json();
 
         if(eventResult){
+            console.log(eventResult);
             dispatch({type: FIND_EVENT_OK, payload: eventResult})
         }else{
             dispatch({type: FIND_EVENT_ERROR, payload: eventResult.message})

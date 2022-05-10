@@ -12,8 +12,6 @@ import { InputText } from 'primereact/inputtext';
 import { TabView, TabPanel } from 'primereact/tabview';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
@@ -171,7 +169,6 @@ const Admin = ({ dispatch, adminUsers }) => {
                                         <Input
                                             clearable
                                             bordered
-                                            fullWidth
                                             color="primary"
                                             size="lg"
                                             labelPlaceholder="Introduce el nuevo stock de este artículo"
