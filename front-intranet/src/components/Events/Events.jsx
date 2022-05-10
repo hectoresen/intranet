@@ -25,7 +25,6 @@ const Events = ({dispatch, user, eventsError, events}) => {
   let strMonth = '';
   let year = currentDate.getFullYear();
 
-  console.log(events);
   useEffect(() =>{
 
     if(day.toLocaleString.length <2){
@@ -34,7 +33,7 @@ const Events = ({dispatch, user, eventsError, events}) => {
     if(month.toLocaleString.length <2){
       strMonth = `0${month}`
     }
-    console.log(`${year}-${strMonth}-${strDay}`);
+/*     console.log(`${year}-${strMonth}-${strDay}`); */
     dispatch(findEvent(`${year}-${strMonth}-${strDay}`, user._id))
   },[])
 

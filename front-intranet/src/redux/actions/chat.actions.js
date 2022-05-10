@@ -96,7 +96,6 @@ export const getChats = (isGuest) =>{
 };
 
 export const createMessageChat = (chatMessageInfo) =>{
-    console.log(chatMessageInfo);
     return async(dispatch) =>{
         dispatch({type: CREATE_MESSAGE_CHAT});
 
@@ -137,7 +136,6 @@ export const getChatMessages = (groupId) =>{
         const getMessagesResults = await getMessagesRequest.json();
 
         if(getMessagesResults){
-            console.log(getMessagesResults);
             dispatch({type: GET_MESSAGE_CHAT_OK, payload: getMessagesResults})
         }
     }

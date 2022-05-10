@@ -103,7 +103,6 @@ const Projects = ({dispatch, allProjects, user, comments}) => {
                   {(commentsList.length >0)
                   ?
                   commentsList.map(element =>{
-                    console.log(element);
                     return <div className='comments' key={element.id}>
                     <div className='comments__results'>
                         <div className='comments__results-icon'><FaRegCommentDots/></div>

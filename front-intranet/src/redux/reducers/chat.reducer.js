@@ -36,7 +36,6 @@ export const chatReducer = (state = INITIAL_STATE, action) =>{
             return {...state, postError: action.payload}
         }
         case (actions.GET_MESSAGE_CHAT_OK) : {
-            console.log(action.payload);
             return {...state, chatMessages: action.payload}
         }
 

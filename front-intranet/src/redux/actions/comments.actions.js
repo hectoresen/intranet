@@ -7,7 +7,6 @@ export const FIND_COMMENT_OK = "FIND_COMMENT_OK";
 export const FIND_COMMENT_ERROR = "FIND_COMMENT_ERROR";
 
 export const createComment = (comment) =>{
-    console.log(comment);
     return async(dispatch) =>{
         dispatch({type: CREATE_COMMENT});
 
@@ -32,7 +31,6 @@ export const createComment = (comment) =>{
 };
 
 export const findComment = (id) =>{
-    console.log('ID EN REDUX',id);
     return async(dispatch) =>{
         dispatch({type: FIND_COMMENT});
 

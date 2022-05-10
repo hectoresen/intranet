@@ -16,16 +16,13 @@ const Messages = ({dispatch, chatGroups, activeUser, postError, chatMessages}) =
 
     const selectGroup = (group) =>{
         dispatch(getChatMessages(group.id))
-        console.log('ID DE GRUPO ->', group);
         setChatSelected(group)
     }
 
-    console.log(chatMessages);
 
     const handleMessage = (ev) =>{
         const {name, value} = ev.target;
         setChatMessage({...chatMessage, [name]: value})
-        console.log(chatMessage);
     };
 
     const submitMessage = (ev) =>{

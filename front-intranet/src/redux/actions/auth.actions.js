@@ -13,7 +13,6 @@ export const AUTH_USER_LOGOUT_ERROR = "AUTH_USER_LOGOUT_ERROR";
 export const loginUser = (form) =>{
 
     return async(dispatch) =>{
-        console.log(form);
         dispatch({type: AUTH_LOGIN});
 
         const loginRequest = await fetch('http://localhost:4500/auth/login', {

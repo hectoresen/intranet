@@ -51,7 +51,6 @@ export const findNews = () =>{
 
         if(newsResult){
             dispatch({type: FIND_NEWS_OK, payload: newsResult});
-            console.log(newsResult);
         }else{
             dispatch({type: FIND_NEWS_ERROR, payload: newsResult.message})
         }

@@ -89,12 +89,10 @@ const Admin = ({ dispatch, adminUsers }) => {
     const handleRegisterInput = (ev) =>{
         const {name, value} = ev.target;
         setRegisterNewUserData({...registerNewUserData, [name]: value});
-        console.log(registerNewUserData);
     };
 
     const registerSubmit = (ev) =>{
         ev.preventDefault();
-        console.log('usuario a registrar ->', registerNewUserData);
         dispatch(registerUser(registerNewUserData));
     };
 
@@ -232,7 +230,6 @@ const Admin = ({ dispatch, adminUsers }) => {
                                             <div>
                                             <Button
                                                 type="submit"
-                                                fullWidth
                                                 variant="contained"
                                                 sx={{ mt: 3, mb: 2 }}
                                             >
