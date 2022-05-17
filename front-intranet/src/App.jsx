@@ -3,8 +3,14 @@ import { Routes, Route } from "react-router-dom";
 import { Navbar, PrivateRoute, PrivateRouteAdmin } from './components';
 import {connect} from 'react-redux';
 import './App.scss';
+import { useEffect } from 'react';
+import { checkUserSession } from './redux/actions/auth.actions';
 
-function App({user}) {
+function App({user, dispatch}) {
+
+  useEffect(() =>{
+    dispatch(checkUserSession());
+  }, []);
   return (
     <div className="App">
       <Routes>

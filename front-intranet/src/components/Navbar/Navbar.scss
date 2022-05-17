@@ -25,3 +25,17 @@
         }
     }
 }
+
+.logout{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    margin: 1%;
+    color: #5276A6;
+};
+
+.logout:hover{
+    cursor: pointer;
+    color: orange;
+    transition: 0.5s;
+}

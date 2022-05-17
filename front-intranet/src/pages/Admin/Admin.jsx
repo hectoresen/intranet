@@ -19,7 +19,7 @@ import { Dropdown } from 'primereact/dropdown';
 import { registerUser } from '../../redux/actions/auth.actions';
 import './Admin.scss';
 
-const Admin = ({ dispatch, adminUsers }) => {
+const Admin = ({ dispatch, adminUsers}) => {
     const navigate = useNavigate();
     const [usersList, setUsersList] = useState([]);
     const [showEditModal, setShowEditModal] = useState(false);

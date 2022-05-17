@@ -14,7 +14,7 @@ const INITIAL_STATE = {
   user: ''
 }
 
-const CreateNews = ({dispatch, user}) => {
+const CreateNews = ({dispatch, user, createdNews}) => {
   const [noticeData, setNoticeData] = useState(INITIAL_STATE);
   const currentDate = new Date();
 
@@ -40,8 +40,10 @@ const CreateNews = ({dispatch, user}) => {
   const submitNews = (ev) =>{
     ev.preventDefault();
     dispatch(createNews(noticeData));
+    setNoticeData(INITIAL_STATE)
   }
 
+  console.log('CREATED NEWS', createdNews);
 
   return (
     <div className='create'>
@@ -58,6 +60,7 @@ const CreateNews = ({dispatch, user}) => {
                 id="title"
                 label="Título de la noticia"
                 name="title"
+                value={noticeData.title}
                 type="text"
                 onChange={handdleNewsInfo}
                 autoFocus>
@@ -69,6 +72,7 @@ const CreateNews = ({dispatch, user}) => {
                 id="description"
                 label="Descripción de la noticia"
                 name="description"
+                value={noticeData.description}
                 multiline
                 rows={5}
                 onChange={handdleNewsInfo}
@@ -87,13 +91,15 @@ const CreateNews = ({dispatch, user}) => {
               </div>
             </Box>
           </Container>
+          {(createdNews) ? <p style={{color: 'green'}}>¡Noticia creada!</p> : ''}
       </div>
 
     </div>
   )
 }
 const mapStateToProps = (state) =>({
-  user: state.auth.user
+  user: state.auth.user,
+  createdNews: state.news.createdNews
 })
 
 export default connect(mapStateToProps)(CreateNews);

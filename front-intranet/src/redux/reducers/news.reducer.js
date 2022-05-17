@@ -16,7 +16,7 @@ export const newsReducer = (state = newsResults, action) =>{
             return {...state, createdNews: false};
         }
         case(actions.FIND_NEWS_OK) : {
-            return {...state, news: action.payload};
+            return {...state, news: action.payload, createdNews: null};
         }
         case(actions.FIND_NEWS_ERROR) : {
             return {...state, findEventsError: true};

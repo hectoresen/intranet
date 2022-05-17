@@ -8,7 +8,7 @@ import { createEvent, findEvent } from '../../redux/actions/events.actions';
 import {connect} from 'react-redux';
 import './Events.scss';
 
-const Events = ({dispatch, user, eventsError, events}) => {
+const Events = ({dispatch, user, eventsList}) => {
 
   const currentDate = new Date();
   const tomorrowDate = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
@@ -16,8 +16,7 @@ const Events = ({dispatch, user, eventsError, events}) => {
   const fourthDay = new Date(new Date().getTime() + 72 * 60 * 60 * 1000);
   const fiveDay = new Date(new Date().getTime() + 96 * 60 * 60 * 1000);
   const [eventData, setEventData] = useState({eventTitle: '', eventDate: '', user: user._id});
-  const [showDayEvent, setShowDayEvent] = useState(false);
-  const [dayEvent, setDayEvent] = useState({});
+  const [dayEvents, setDayEvents] = useState([]);
 
   let day = currentDate.getDate();
   let strDay = '';
@@ -26,7 +25,6 @@ const Events = ({dispatch, user, eventsError, events}) => {
   let year = currentDate.getFullYear();
 
   useEffect(() =>{
-
     if(day.toLocaleString.length <2){
         strDay = `${day}`
     }
@@ -36,6 +34,12 @@ const Events = ({dispatch, user, eventsError, events}) => {
 /*     console.log(`${year}-${strMonth}-${strDay}`); */
     dispatch(findEvent(`${year}-${strMonth}-${strDay}`, user._id))
   },[])
+
+  useEffect(() =>{
+    console.log(1);
+    console.log('Los eventos han cambiado->', eventsList);
+
+  },[eventsList])
 
   const mapToDate = (date) =>(
     {
@@ -53,6 +57,7 @@ const Events = ({dispatch, user, eventsError, events}) => {
   const submitEvents = (ev) =>{
     ev.preventDefault();
     dispatch(createEvent(eventData));
+    setEventData({eventTitle: '', eventDate: '', user: user._id})
   };
 
   return (
@@ -63,7 +68,8 @@ const Events = ({dispatch, user, eventsError, events}) => {
 
       <div className='events__calendar'>
         <div className='events__calendar__cards'>
-          <div className={(events.length >0) ? 'events__calendar__cards-card-active' : 'events__calendar__cards-card'}>
+          {/* <div className={(eventsList.length >0) ? 'events__calendar__cards-card-active' : 'events__calendar__cards-card'}> */}
+          <div className='events__calendar__cards-card-active'>
             <p>{mapToDate(currentDate).ddStr}</p>
             <p>{mapToDate(currentDate).dd}</p>
           </div>
@@ -126,9 +132,9 @@ const Events = ({dispatch, user, eventsError, events}) => {
       <div className='events__info'>
         <div>
                     {
-            (events.length >0)
+            (eventsList.length >0)
             ?
-            events.map(element =>{
+            eventsList.map(element =>{
               return <div className='events__info-events' key={element.DateTime}>
                 <Grid.Container gap={2}>
                   <Grid sm={12} md={5}>
@@ -163,7 +169,7 @@ const Events = ({dispatch, user, eventsError, events}) => {
 const mapStateToProps = (state) =>({
   user: state.auth.user,
   eventsError: state.events.eventErrors,
-  events: state.events.event
+  eventsList: state.events.eventsList
 })
 
 export default connect(mapStateToProps)(Events);

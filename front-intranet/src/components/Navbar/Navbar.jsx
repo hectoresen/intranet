@@ -2,15 +2,23 @@ import React from 'react';
 import { ImHome3 } from "react-icons/im";
 import { FaUniversity, FaRocket } from "react-icons/fa";
 import { BsChatText } from "react-icons/bs";
-import { useLocation, useNavigate } from 'react-router-dom';
+import { FiLogOut } from "react-icons/fi";
+import { useNavigate } from 'react-router-dom';
+import {connect} from 'react-redux';
 import './Navbar.scss';
+import { logoutUser } from '../../redux/actions/auth.actions';
 
-const Navbar = () => {
+const Navbar = ({dispatch, user}) => {
+
   const navigate = useNavigate();
   const navHome = () => navigate('/home');
   const navNews = () => navigate('/home/news');
   const navProjects = () => navigate('/home/projects');
   const navChat = () => navigate('/home/chat');
+
+  const handleLogout = () =>{
+    dispatch(logoutUser());
+  }
 
   return (
     <div className='navbar'>
@@ -22,8 +30,14 @@ const Navbar = () => {
           <li className='navbar__items-item3' onClick={navChat}><BsChatText/></li>
         </ul>
       </div>
+      <h1 title='Logout' className='logout' onClick={handleLogout}><FiLogOut/></h1>
+
     </div>
   )
-}
+};
 
-export default Navbar
+const mapStateToProps = (state) =>({
+  user: state.auth.user
+});
+
+export default connect(mapStateToProps)(Navbar);

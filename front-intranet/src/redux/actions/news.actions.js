@@ -26,7 +26,7 @@ export const createNews = (form) =>{
             body: JSON.stringify(form),
         });
         const createNewsResult = await createNewsRequest.json();
-        if(createNewsResult){
+        if(createNewsRequest.ok){
             dispatch({type: CREATE_NEWS_OK, payload: createNewsResult})
         }else{
             dispatch({type: CREATE_NEWS_ERROR, payload: createNewsResult.message})
